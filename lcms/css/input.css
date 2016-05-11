@@ -1,0 +1,38 @@
+input.lcms-txt, input.lcms-number, input.lcms-number-decimal,textarea.lcms-txtarea {
+	-moz-border-radius: 5px !important; 
+	-webkit-border-radius: 5px !important;
+	border-radius: 5px !important;
+	border: 1px #DDD inset !important;
+	outline: none !important;
+	padding: 3px !important;
+	background: url(images/text.png) repeat-x #FFF !important;
+	font-family: Arial, Helvetica, sans-serif !important;
+	font-size: 10pt !important;
+	vertical-align: middle !important;
+	margin: 0 2px 0 0 !important;
+}
+
+input.lcms-txt:focus, input.lcms-number:focus, input.lcms-number-decimal:focus,textarea.lcms-txtarea:focus {
+	border: 1px #AAA inset !important;
+}
+
+select {
+	background-color: #F9F9F9 !important;
+	border: 1px solid #DDD !important;
+	font-size: 12px !important;
+	padding: 2px !important;
+}
+
+span.dateEntry_wrap, span.timeEntry_wrap {
+	padding-right: 20px;
+}
+
+span.dateEntry_control {
+	margin-top: 4px;
+	position: absolute;
+}
+
+span.timeEntry_control {
+	margin-top: 4px;
+	position: absolute;
+}

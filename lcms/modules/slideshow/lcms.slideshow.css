@@ -1,0 +1,26 @@
+a.lcms-tool-slideshow {
+	background-image: url(slideshow.png);
+}
+
+div.lcms-slideshow-image-container ul li {
+	float: left;
+	padding: 5px;
+	border-radius: 5px;
+	text-align: center;
+	border: 1px solid #FFF;
+	background: #FFF;
+}
+
+div.lcms-slideshow-image-container {
+	overflow: hidden;
+}
+
+div.lcms-slideshow-image-container ul li:hover {
+	border: 1px solid #EEE;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+div.lcms-slideshow-image-container ul li.current {
+	background: #EEE;
+	border: 1px solid #EEE;
+}

@@ -1,0 +1,833 @@
+<html>
+
+<head>
+	<title>MIROS</title>
+	
+	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+	<script type="text/javascript" src="md5.js"></script>
+	<script type="text/javascript" src="zepto.js"></script>
+
+	<script type="text/javascript" src="plugins.js"></script>
+	<script type="text/javascript" src="cordova.js"></script>
+	<script type="text/javascript">
+	
+		document.addEventListener("deviceready", onDeviceReady, false);
+		function onDeviceReady() {
+		
+			loadData();
+			document.addEventListener("backbutton", function(e){
+				e.preventDefault();
+				var loc = $('div.current_screen button.btn_right').attr('goto');
+				if (loc){
+					goTo(loc);
+				}
+			}, false);
+		}
+
+		$(document).ready(function(){
+			setTimeout(function(){
+				goTo('home');
+			},150);
+		});
+	</script>
+	<script type="text/javascript">
+	
+		var allow_draw = true;
+		var erase_brush = false;
+		
+		var canvas;
+		var ctx;
+		var tmp_ctx;
+		var tmp_canvas;
+		
+		$(document).ready(function(){
+		
+			tmp_canvas = document.createElement('canvas');
+			tmp_ctx = tmp_canvas.getContext('2d');
+			
+			canvas = document.querySelector('#paint');
+			ctx = canvas.getContext('2d');
+			
+			// Creating a tmp canvas
+
+			tmp_canvas.id = 'tmp_canvas';
+			tmp_canvas.width = canvas.width;
+			tmp_canvas.height = canvas.height;
+			
+			sketch.appendChild(tmp_canvas);
+		
+			var mouse = {x: 0, y: 0};
+			var last_mouse = {x: 0, y: 0};
+			
+			// Pencil Points
+			var ppts = [];
+			
+			/* Mouse Capturing Work */
+			tmp_canvas.addEventListener('touchmove', function(e) {
+				mouse.x = e.touches[0].pageX - 20;
+				mouse.y =  e.touches[0].pageY - 135;
+			}, false);
+			
+			
+			/* Drawing on Paint App */
+			tmp_ctx.lineWidth = 5;
+			tmp_ctx.lineJoin = 'round';
+			tmp_ctx.lineCap = 'round';
+			tmp_ctx.strokeStyle = 'black';
+			tmp_ctx.fillStyle = 'black';
+			
+			tmp_canvas.addEventListener('touchstart', function(e) {
+				if (!allow_draw) return;
+			
+				tmp_canvas.addEventListener('touchmove', onPaint, false);
+				
+				// mouse.x = typeof e.offsetX !== 'undefined' ? e.offsetX : e.layerX;
+				// mouse.y = typeof e.offsetY !== 'undefined' ? e.offsetY : e.layerY;
+				
+				mouse.x = e.touches[0].pageX - 20;
+				mouse.y =  e.touches[0].pageY - 135;
+				
+				ppts.push({x: mouse.x, y: mouse.y});
+				
+				onPaint();
+			}, false);
+			
+			tmp_canvas.addEventListener('touchend', function() {
+				if (!allow_draw) return;
+				
+				tmp_canvas.removeEventListener('touchmove', onPaint, false);
+				
+				// Writing down to real canvas now
+				ctx.drawImage(tmp_canvas, 0, 0);
+				// Clearing tmp canvas
+				tmp_ctx.clearRect(0, 0, tmp_canvas.width, tmp_canvas.height);
+				
+				// Emptying up Pencil Points
+				ppts = [];
+			}, false);
+			
+			var onPaint = function() {
+				
+				// Saving all the points in an array
+				ppts.push({x: mouse.x, y: mouse.y});
+				
+				if (ppts.length < 3) {
+					var b = ppts[0];
+					tmp_ctx.beginPath();
+					//ctx.moveTo(b.x, b.y);
+					//ctx.lineTo(b.x+50, b.y+50);
+					tmp_ctx.arc(b.x, b.y, tmp_ctx.lineWidth / 2, 0, Math.PI * 2, !0);
+					tmp_ctx.fill();
+					tmp_ctx.closePath();
+					
+					return;
+				}
+				
+				// Tmp canvas is always cleared up before drawing.
+				tmp_ctx.clearRect(0, 0, tmp_canvas.width, tmp_canvas.height);
+				
+				tmp_ctx.beginPath();
+				tmp_ctx.moveTo(ppts[0].x, ppts[0].y);
+				
+				for (var i = 1; i < ppts.length - 2; i++) {
+					var c = (ppts[i].x + ppts[i + 1].x) / 2;
+					var d = (ppts[i].y + ppts[i + 1].y) / 2;
+					
+					tmp_ctx.quadraticCurveTo(ppts[i].x, ppts[i].y, c, d);
+				}
+				
+				// For the last 2 points
+				tmp_ctx.quadraticCurveTo(
+					ppts[i].x,
+					ppts[i].y,
+					ppts[i + 1].x,
+					ppts[i + 1].y
+				);
+				tmp_ctx.stroke();
+				
+			};
+			
+		});
+		
+		
+	</script>
+	
+
+	<script>
+	// This example adds a search box to a map, using the Google Place Autocomplete
+	// feature. People can enter geographical searches. The search box will return a
+	// pick list containing a mix of places and predicted search terms.
+	var map;
+	var markers = [];
+	var poi_marker 
+	
+	function initialize() {
+	
+	  map = new google.maps.Map(document.getElementById('map-canvas'), {
+		  mapTypeId: google.maps.MapTypeId.ROADMAP
+	  });
+	 
+	
+	  var defaultBounds = new google.maps.LatLngBounds(new google.maps.LatLng(5.0174, 102.2631));
+	  map.fitBounds(defaultBounds);
+	
+	  // Create the search box and link it to the UI element.
+	  var input = /** @type {HTMLInputElement} */(
+	      document.getElementById('pac-input'));
+	  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+	
+	  var searchBox = new google.maps.places.SearchBox(
+	    /** @type {HTMLInputElement} */(input));
+	
+	    poi_marker = new google.maps.Marker({
+		        map: map,
+		        position: new google.maps.LatLng(0,0)
+		  });
+		    
+	    google.maps.event.addListener(map, "click", function(event) {
+	    	
+	    	for (var i = 0; i < markers.length; i++) {
+		    	markers[i].setMap(null);
+		    }
+		    
+	    	var lat = event.latLng.lat();
+	    	var lng = event.latLng.lng();
+	    	// populate yor box/field with lat, lng
+	    	$('input[name=geo_lat]').val(lat);
+	    	$('input[name=geo_lng]').val(lng);
+	    	
+	    	poi_marker.setPosition(event.latLng);
+	    	
+	    	
+	    });
+	  // [START region_getplaces]
+	  // Listen for the event fired when the user selects an item from the
+// pick list. Retrieve the matching places for that item
+	google.maps.event.addListener(searchBox, 'places_changed', function() {
+		var places = searchBox.getPlaces();
+	
+		for (var i = 0, marker; marker = markers[i]; i++) {
+			marker.setMap(null);
+		}
+	
+	    // For each place, get the icon, place name, and location.
+	    markers = [];
+	    var bounds = new google.maps.LatLngBounds();
+	    for (var i = 0, place; place = places[i]; i++) {
+	      var image = {
+	        url: place.icon,
+	        size: new google.maps.Size(71, 71),
+	        origin: new google.maps.Point(0, 0),
+	        anchor: new google.maps.Point(17, 34),
+	        scaledSize: new google.maps.Size(25, 25)
+	      };
+	
+	      // Create a marker for each place.
+	      /*
+	      var marker = new google.maps.Marker({
+	        map: map,
+	        icon: image,
+	        title: place.name,
+	        position: place.geometry.location
+	      });
+	
+	      markers.push(marker);
+	      */
+	
+	      bounds.extend(place.geometry.location);
+	    }
+	
+	    map.fitBounds(bounds);
+	  });
+	  // [END region_getplaces]
+	
+	  // Bias the SearchBox results towards places that are within the bounds of the
+	  // current map's viewport.
+	  google.maps.event.addListener(map, 'bounds_changed', function() {
+	    var bounds = map.getBounds();
+	    searchBox.setBounds(bounds);
+	  });
+	}
+
+	
+	</script>
+
+	<script type="text/javascript" src="app.js"></script>
+	<link rel="stylesheet" href="style.css" />
+	<link rel="stylesheet" href="survey.css" />
+</head>
+<body>
+
+	<div id="container">
+		<div id="home" class="screen screen-main">
+			<div class="header">
+				Malaysian Institute of Road Safety Research (MIROS)
+			</div>
+			<div class="button-container">
+				<div style="text-align: center; padding: 30px 0;">
+					<img src="mroads.png" style="width: 100%" />
+				</div>
+				<button class="unlogged-in login-page" goto="daftar">Daftar Masuk</button>
+				<button class="logout logged-in" goto="home">Daftar Keluar</button>
+				<button class="logged-in new-record" goto="rekod">Rekod Baru</button>
+				<button class="logged-in records" goto="senarai">Rekod Belum Lengkap</button>
+				<button goto="tetapan">Tetapan</button>
+				<button class="exit">Keluar Dari Aplikasi</button>
+				
+				<div style="padding-top: 50px; text-align: center">
+					&copy; Hakcipta Terpelihara MIROS 2014
+				</div>
+
+			</div>
+		</div>
+		
+	
+		
+		<div id="senarai" class="screen">
+			<div class="header">
+				<button class="btn-right" goto="home">Kembali</button>
+				Senarai Rekod Belum Lengkap
+			</div>
+			<div class="content">
+				<table class="grid-header">
+					<thead>
+						<tr>
+							<th>Lokasi</th>
+							<th style="width: 110px">Bil. Kenderaan</th>
+							<th style="width: 130px">Tarikh/Masa</th>
+							<th style="width: 80px">Status</th>
+							<th style="width: 150px"></th>	
+						</tr>
+					</thead>
+					<tbody class="case-list">
+						
+					</tbody>
+				</table>
+			
+			</div>
+		</div>
+		
+		
+		<div id="butiran" class="screen">
+		
+			<div class="image-preview" style="background: #000; text-align: center; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 2000; display: none">
+				
+			</div>
+			<div class="header">
+				<button class="btn-right refresh-case-list" goto="senarai">Kembali</button>
+				Rekod Kemalangan
+			</div>
+			<div class="content">
+			
+				<div class="tab-container">
+					<a class="tab tab-case current-tab" rel="tab-case">Maklumat Kes</a>
+					<a class="tab tab-sketch" rel="tab-sketch">Lakaran</a>
+				</div>
+				
+				<div class="case-info tab tab-case">
+					<button style="float:right" class="upload-to-server">Muatnaik Ke Server</button>
+					<h3>Rekod Kes &raquo; <span class="rec-report-number"></span></h3>
+					
+					
+					<table class="form">
+						<tr>
+							<td>Negeri</td>
+							<td class="rec-state"></td>
+							<td>Daerah</td>
+							<td class="rec-city"></td>
+						</tr>
+						<tr>
+							<td>Cawangan</td>
+							<td class="rec-branch"></td>
+							<td>Bilangan Kenderaan</td>
+							<td class="rec-vehicles"></td>
+						</tr>
+					</table>
+					
+					<h3>Butir Kes</h3>
+					<table class="form">
+						<thead>
+							<tr>
+								<th>Kes</th>
+								<th style="width: 150px">Status Rekod</th>
+								<th style="width: 150px"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									Case Information
+								</td>
+								<td style="text-align: center">
+									<span class="rec-case-status">Belum Lengkap</span>
+								</td>
+								<td style="text-align: center">
+									<button class="details case-details">Butiran</button>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									Motorcycle Infrastructure
+								</td>
+								<td style="text-align: center">
+									<span class="rec-mi-status">Belum Lengkap</span>
+								</td>
+								<td style="text-align: center">
+									<button class="details mi-details">Butiran</button>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									Pedestrian Infrastructure
+								</td>
+								<td style="text-align: center">
+									<span class="rec-pi-status">Belum Lengkap</span>
+								</td>
+								<td style="text-align: center">
+									<button class="details pi-details">Butiran</button>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									Public Transport
+								</td>
+								<td style="text-align: center">
+									<span class="rec-pt-status">Belum Lengkap</span>
+								</td>
+								<td style="text-align: center">
+									<button class="details pt-details">Butiran</button>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									Road Surface
+								</td>
+								<td style="text-align: center">
+									<span class="rec-rs-status">Belum Lengkap</span>
+								</td>
+								<td style="text-align: center">
+									<button class="details rs-details">Butiran</button>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									Road Side Safety
+								</td>
+								<td style="text-align: center">
+									<span class="rec-rss-status">Belum Lengkap</span>
+								</td>
+								<td style="text-align: center">
+									<button class="details rss-details">Butiran</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					
+					<h3>Butir Kenderaan</h3>
+					<table class="form">
+						<thead>
+							<tr>
+								<th>Kenderaan</th>
+								<th style="width: 150px">Status Rekod</th>
+								<th style="width: 150px"></th>
+							</tr>
+						</thead>
+						<tbody class="rec-vehicle-list">
+						
+						</tbody>
+					</table>
+					
+					<h3>Butir Penumpang</h3>
+					<table class="form">
+						<thead>
+							<tr>
+								<th>Mangsa</th>
+								<th style="width: 150px">Status Rekod</th>
+								<th style="width: 150px"></th>
+							</tr>
+						</thead>
+						<tbody class="rec-passenger-list">
+						
+						</tbody>
+					</table>
+					
+					<h3>Butir Pejalan Kaki</h3>
+					<table class="form">
+						<thead>
+							<tr>
+								<th>Mangsa</th>
+								<th style="width: 150px">Status Rekod</th>
+								<th style="width: 150px"></th>
+							</tr>
+						</thead>
+						<tbody class="rec-pedestrian-list">
+						
+						</tbody>
+					</table>
+					
+					
+					<button class="take-photo" style="float: right">Ambil Gambar</button>
+					<h3>Gambar Kemalangan</h3>
+					<table class="form">
+						<thead>
+							<tr>
+								<th>Gambar</th>
+								<th style="width: 150px"></th>
+							</tr>
+						</thead>
+						<tbody class="rec-images">
+						
+						</tbody>
+					</table>
+				</div>
+				
+				<div class="sketch-info tab tab-sketch" style="display:none">
+					<h3>Lakaran Kemalangan</h3>
+					
+					<style>
+						#tmp_canvas {
+							position: absolute;
+							height: inherit;
+							width: inherit;
+							cursor: crosshair;
+							left: 0;
+							right: 0;
+							top: 0;
+							bottom: 0;
+						}
+						
+						#sketch {
+							height: inherit;
+							position: relative;
+						}
+						
+						#sketch-container {
+							height: 500px;
+							width: 900px;
+							border: 1px solid #ccc;
+							background: #fff;
+						}
+					</style>
+					
+					<div id="sketch-container">
+						<button class="sm sketch" style="display:none">Lakar</button>
+						<button class="sm erase-sketch">Padam</button>
+						<button class="save-sketch">Simpan</button>
+						<button class="refresh-sketch">Refresh</button>
+						<div id="sketch">
+							<canvas id="paint" height="500" width="900"></canvas>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div id="kemaskini-rekod" class="screen">
+			<div class="header">
+				<button class="btn-right" goto="senarai">Kembali</button>
+				<button class="save form-update btn-left">Simpan</button>
+				Kemaskini Rekod
+			</div>
+			<div class="content">
+				<div class="map-placeholder-edit">
+					
+					
+				</div>
+				<form id="form" style="padding-top: 20px">
+					
+					<table class="form">
+						
+						<tr>
+							<td class="label">No Laporan <span class="red">*</span></td>
+							<td class="input"><input type="text" class="text" name="report_number"/></td>
+						</tr>
+						<tr>
+							<td colspan="2" class="head">Koordinat GPS Kejadian <small><span class="geo_loading"></span></small></td>
+						</tr>
+						<tr>
+							<td class="label">Latitud</td>
+							<td class="input"><input type="text" class="text number geo_lat" name="geo_lat" /></td>
+						</tr>
+						<tr>
+							<td class="label">Longitud</td>
+							<td class="input"><input type="text" class="text number geo_lng" name="geo_lng" />  <button class="geo_refresh">Refresh</button></td>
+						</tr>
+						<tr>
+							<td colspan="2" class="head">Lokasi Kejadian</td>
+						</tr>
+						<tr>
+							<td class="label">Jarak Dari</td>
+							<td class="input">
+								<input type="text" class="text" name="from_location" />
+								 <span class="hint">Nama Tempat/Bandar</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="label">Jarak</td>
+							<td class="input">
+								<input type="number" class="text" name="from_distance" />
+								<span class="hint">km</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="label">Jarak Ke</td>
+							<td class="input">
+								<input type="text" class="text" name="to_location" />
+								 <span class="hint">Nama Tempat/Bandar</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="label">Jarak</td>
+							<td class="input">
+								<input type="number" class="text" name="to_distance" />
+								<span class="hint">km</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="label">Masa Kejadian <span class="red">*</span></td>
+							<td class="input">
+								<input style="width: 95px" type="time" class="text time" name="time" />
+								<input style="width: 95px" type="date" class="text date" name="date" />
+							</td>
+						</tr>
+						<tr>
+							<td class="label">No Seksyen</td>
+							<td class="input"><input type="text" class="text" name="section_no" /></td>
+						</tr>
+						<tr>
+							<td class="label">Bilangan Kenderaan Terlibat</td>
+							<td class="input"><input type="number" class="text number" name="vehicle_count" /></td>
+						</tr>
+						<tr>
+							<td class="label">Bilangan Kenderaan Rosak</td>
+							<td class="input"><input type="number" class="text number" name="vehicle_damaged" /></td>
+						</tr>
+						<tr>
+							<td class="label">Bilangan Pemandu Mati / Cedera</td>
+							<td class="input"><input type="number" class="text number" name="driver_death_count" /></td>
+						</tr>
+						<tr>
+							<td class="label">Bilangan Penumpang Mati / Cedera</td>
+							<td class="input"><input type="number" class="text number" name="passenger_death_count" /></td>
+						</tr>
+						<tr>
+							<td class="label">Bilangan Pejalan Kaki Mati / Cedera</td>
+							<td class="input"><input type="number" class="text number" name="pedestrian_death_count" /></td>
+						</tr>
+						
+					</table>
+					
+					
+					
+				</form>			
+			
+			</div>
+			
+		</div>
+
+		
+		<div id="rekod" class="screen">
+			<div class="header">
+
+				<button class="btn-right" goto="home">Kembali</button>
+				<button class="save form-save btn-left">Simpan</button>
+				Rekod Baru
+			</div>
+			<div class="content">
+				<div class="map-placeholder">
+				    <div class="map-container">
+				    	<div id="map-canvas" ></div>
+				    	<input id="pac-input" class="controls" type="text" placeholder="Search Box">
+				    </div>
+				</div>
+				
+
+				<form id="form" class="new-record" style="padding-top: 15px">
+					
+					<table class="form">
+						<tr>
+							<td class="label">No Laporan <span class="red">*</span></td>
+							<td class="input"><input type="text" class="text" name="report_number"/></td>
+						</tr>
+						<tr>
+							<td colspan="2" class="head">Koordinat GPS Kejadian <small><span class="geo_loading"></span></small></td>
+						</tr>
+						<tr>
+							<td class="label">Latitud <span class="red">*</span></td>
+							<td class="input"><input type="text" class="text number geo_lat" name="geo_lat" /></td>
+						</tr>
+						<tr>
+							<td class="label">Longitud <span class="red">*</span></td>
+							<td class="input"><input type="text" class="text number geo_lng" name="geo_lng" /> <button class="geo_refresh">Refresh</button></td>
+						</tr>
+						<tr>
+							<td colspan="2" class="head">Lokasi Kejadian</td>
+						</tr>
+						<tr>
+							<td class="label">Jarak Dari</td>
+							<td class="input">
+								<input type="text" class="text" name="from_location" />
+								 <span class="hint">Nama Tempat/Bandar</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="label">Jarak</td>
+							<td class="input">
+								<input type="number" class="text" name="from_distance" />
+								<span class="hint">km</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="label">Jarak Ke</td>
+							<td class="input">
+								<input type="text" class="text" name="to_location" />
+								 <span class="hint">Nama Tempat/Bandar</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="label">Jarak </td>
+							<td class="input">
+								<input type="number" class="text" name="to_distance" />
+								<span class="hint">km</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="label">Masa Kejadian <span class="red">*</span></td>
+							<td class="input">
+								<input style="width: 95px" type="time" class="text time" name="time" />
+								<input style="width: 95px" type="date" class="text date" name="date" />
+							</td>
+						</tr>
+						<tr>
+							<td class="label">No Seksyen</td>
+							<td class="input"><input type="number" class="text" name="section_no" /></td>
+						</tr>
+						<tr>
+							<td class="label">Bilangan Kenderaan Terlibat</td>
+							<td class="input"><input type="number" class="text number" name="vehicle_count" /></td>
+						</tr>
+						<tr>
+							<td class="label">Bilangan Kenderaan Rosak</td>
+							<td class="input"><input type="number" class="text number" name="vehicle_damaged" /></td>
+						</tr>
+						<tr>
+							<td class="label">Bilangan Pemandu Mati / Cedera</td>
+							<td class="input"><input type="number" class="text number" name="driver_death_count" /></td>
+						</tr>
+						<tr>
+							<td class="label">Bilangan Penumpang Mati / Cedera</td>
+							<td class="input"><input type="number" class="text number" name="passenger_death_count" /></td>
+						</tr>
+						<tr>
+							<td class="label">Bilangan Pejalan Kaki Mati / Cedera</td>
+							<td class="input"><input type="number" class="text number" name="pedestrian_death_count" /></td>
+						</tr>
+						
+					</table>
+					<br />
+
+				</form>			
+			
+			</div>
+			
+		</div>
+		
+		<div id="tetapan" class="screen">
+			<div class="header">
+				<button class="btn-right" goto="home">Kembali</button>
+				Tetapan
+			</div>
+			<div class="button-container">
+				<button class="update-branch" goto="pilih">Pilih Cawangan</button>
+				<hr />
+				<button class="update-case-form">Muat Turun Borang Kes<span class="case-form-status"></span></button>
+				<button class="update-vehicle-form">Muat Turun Borang Kenderaan<span class="vehicle-form-status"></span></button>
+				<button class="update-passenger-form">Muat Turun Borang Penumpang<span class="passenger-form-status"></span></button>
+				<button class="update-pedestrian-form">Muat Turun Borang Pejalan Kaki<span class="pedestrian-form-status"></span></button>
+				<hr />
+				<h3>API URL</h3>
+				<input type="text" class="text api-url" style="display: block; width: 100%; font-size: 12pt;" />
+			</div>
+		</div>
+		
+		
+			<div id="daftar" class="screen">
+			<div class="header">
+				<button class="btn-right" goto="home">Kembali</button>
+				Daftar Masuk
+			</div>
+			<div class="content">
+				<div class="button-container">
+					<div style="text-align: center; padding: 30px 0;">
+						<img src="mroads.png" style="width: 100%" />
+					</div>
+
+					<h3>Username</h3>
+					<input type="text" class="text user-username" style="display: block; width: 100%; font-size: 12pt;" />
+					
+					<h3>Password</h3>
+					<input type="password" class="text user-password" style="display: block; width: 100%; font-size: 12pt;" />
+					<br /><br />
+					<button class="login">Daftar Masuk</button>
+				</div>
+			
+			</div>
+		</div>
+
+		
+		<div id="pilih" class="screen">
+			<div class="header">
+				<button class="btn-right" goto="tetapan">Kembali</button>
+				Pilih Cawangan
+			</div>
+			<div class="content">
+				<div class="button-container">
+					<div class="branch-container">
+						Loading...
+					</div>
+					<hr />
+					<button class="select-branch" style="display:none">Pilih</button>
+				</div>
+			</div>
+		</div>
+		
+		<div id="borang-kes" class="screen">
+			<div class="header">
+				<button class="btn-right" goto="butiran">Kembali</button>
+				Rekod Kes Kemalangan
+			</div>
+			<div class="content">
+			
+			</div>
+		</div>
+		<div id="borang-kenderaan" class="screen">
+			<div class="header">
+				<button class="btn-right" goto="butiran">Kembali</button>
+				Rekod Kenderaan
+			</div>
+			<div class="content">
+			
+			</div>
+		</div>
+		<div id="borang-penumpang" class="screen">
+			<div class="header">
+				<button class="btn-right" goto="butiran">Kembali</button>
+				Rekod Penumpang
+			</div>
+			<div class="content">
+			
+			</div>
+		</div>
+		<div id="borang-pejalan-kaki" class="screen">
+			<div class="header">
+				<button class="btn-right" goto="butiran">Kembali</button>
+				Rekod Pejalan Kaki
+			</div>
+			<div class="content">
+			
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

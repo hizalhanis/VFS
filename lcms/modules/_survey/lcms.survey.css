@@ -1,0 +1,202 @@
+div.question-type input.question {
+	font-size: 12pt;
+	width: 100%;
+}
+
+div.question-type input.qn {
+	width: 100%;
+}
+
+table.matrix-answer, table.matrix-sa, table.matrix-ma {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+table.matrix-answer td, table.matrix-sa td, table.matrix-ma td { 
+	padding: 2px 5px;
+}
+
+table.matrix-answer th, table.matrix-sa th, table.matrix-ma th { 
+	padding: 2px 5px;
+}
+
+button.remove-btn {
+	border: 1px solid #DDD;
+	background: #F5F5F5;
+	padding: 4px 8px 5px 8px;
+}
+
+button.remove-btn:hover {
+	background: #EEE;
+}
+
+div.question-type input.dummy-text {
+	
+}
+
+input.input-full {
+	width: 100%;
+}
+
+input.qnx {
+	width: 100%;
+}
+
+div.single-answer {
+	padding: 3px 35px 3px 25px;
+}
+
+div.single-answer input.dummy-radio {
+	float: left;
+	margin-left: -25px;
+	margin-top: 7px;
+}
+
+div.single-answer button.single-answer-remove {
+	float: right;
+	margin-right: -35px;
+}
+
+div.multiple-answer {
+	padding: 3px 35px 3px 25px;
+}
+
+div.multiple-answer input.dummy-checkbox {
+	float: left;
+	margin-left: -25px;
+	margin-top: 7px;
+}
+
+div.multiple-answer button.multiple-answer-remove {
+	float: right;
+	margin-right: -35px;
+}
+
+div.matrix-choice-question td.remove-btn {
+	width: 20px;
+}
+
+div.matrix-choice-question td.matrix-col, div.matrix-choice-question th.matrix-col {
+	width: 70px !important;
+}
+
+div.matrix-choice-question th.matrix-col input {
+	padding-right: 15px;
+	width: 55px;
+}
+
+div.matrix-choice-question th.matrix-col button.remove-btn {
+	position: absolute;
+	margin-left: 58px;
+	padding: 3px 3px 4px 3px;
+	margin-top: 3px;
+	border-radius: 0;
+}
+
+div.matrix-choice-ma-question td.remove-btn {
+	width: 20px;
+}
+
+div.matrix-choice-ma-question td.matrix-col, div.matrix-choice-ma-question th.matrix-col {
+	width: 70px !important;
+}
+
+div.matrix-choice-ma-question th.matrix-col input {
+	padding-right: 15px;
+	width: 55px !important;
+}
+
+div.matrix-choice-ma-question th.matrix-col button.remove-btn {
+	position: absolute;
+	margin-left: 58px;
+	padding: 3px 3px 4px 3px;
+	margin-top: 3px;
+	border-radius: 0;
+}
+
+div.matrix-answer-question td.remove-btn {
+	width: 20px;
+}
+
+input.dummy-text {
+	border: none;
+	background: #EEE;
+	padding: 2px;
+}
+
+textarea.dummy-text {
+	border: none;
+	background: #EEE;
+	padding: 2px;
+	height: 80px;	
+}
+
+div.question {
+	margin: 10px 0;
+}
+
+div.answer {
+	margin: 10px 0;
+}
+
+div.comments {
+	margin: 20px 0 0 0;
+}
+
+div.question-type input[type=text] {
+	border: 1px solid #CCC;
+	padding: 2px;
+	font-size: 11pt;
+	outline: none;
+}
+
+div.question-type input[type=text]:focus {
+	outline: none;
+	border: 1px solid #888;
+}
+
+div.question-control {
+	background: #F9F9F9;
+	padding: 5px;
+	border-radius: 5px;
+	margin: 10px 0;
+}
+
+div.questions-container {
+	overflow-y: auto;
+	height: 400px;
+	border: 1px solid #CCC;
+}
+
+div.questions-container ul li {
+	border-bottom: 1px solid #CCC;
+	padding: 5px;
+	font-size: 9pt;
+}
+
+div.questions-container ul li a {
+	display: block;
+}
+
+div.questions-container ul li:hover {
+	background: #F9F9F9;
+}
+
+div.questions-container ul {
+	margin: 0;
+	padding: 0;
+}
+
+ul.lcms-survey-questions li.current {
+	background: #F1F1F1;
+}
+
+ul.lcms-survey-questions li.current:hover {
+	background: #F1F1F1;
+}
+
+#lcms-survey-page-content {
+	height: 400px;
+	border: 1px solid #CCC;
+	font-size: 11pt;
+}

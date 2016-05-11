@@ -1,0 +1,8 @@
+a.lcms-content-richtext {
+	background-image: url(richtext.png);
+}
+
+div.lcms-richtext-form div.lcms-publish {
+	font-size: 8pt;
+	margin: 5px 0;
+}

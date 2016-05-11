@@ -1,0 +1,17 @@
+div.lcms-video-form {
+	padding: 10px;
+}
+
+div.lcms-video-form textarea, div.lcms-richtext-form textarea, div.lcms-blog-post-form textarea {
+	width: 100%;
+	height: 100px;
+}
+
+a.lcms-content-video {
+	background-image: url(video.png);
+}
+
+object {
+	position: relative;
+	z-index: 0;
+}

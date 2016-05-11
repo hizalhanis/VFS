@@ -1,0 +1,12 @@
+div.lcms-eventcal-form {
+	padding: 10px;
+}
+
+div.lcms-eventcal-form textarea, div.lcms-richtext-form textarea, div.lcms-blog-post-form textarea {
+	width: 100%;
+	height: 100px;
+}
+
+a.lcms-content-eventcal {
+	background-image: url(eventcal.png);
+}
