@@ -280,6 +280,11 @@ function doOHVC(){
 var engine_url = 'cases/ajax/';
 var engine_user = '<?php echo $user; ?>';
 
+function send()
+{
+    alert("Submitted! Thank you for your feedback.");
+}
+
 </script>
 
 
@@ -289,7 +294,7 @@ var engine_user = '<?php echo $user; ?>';
 	
 	<div id="content">
 		<div class="toolbar">
-			<a class="btn-right btn" style="padding: 0 5px;" href="cases/view/<?php echo $id; ?>">Submit</a>
+			<a class="btn-right btn" style="padding: 0 5px;" href="cases/overview" onclick="send()" value="Confirmation">Submit</a>
 			<h3 class="header">Open Day Survey</h3>
 		</div>
 

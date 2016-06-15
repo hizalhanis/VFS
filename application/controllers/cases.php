@@ -24,34 +24,27 @@ class Cases extends CI_Controller {
 		$this->load->view('footer', $data);
 	}
 
-	function New_case($do){
-		$data['tab'] = "new-case";
-
-		if ($do == 'do'){
-
-			$branch = $this->branch->get_branch_by_id($this->input->post('District_Code'));
-
-			$data = $this->input->post();
-
-			$data['branch'] = $branch->id;
-			$data['state']	= $branch->state;
-			$data['city']	= $branch->city;
-			$data['status']	= 'Tidak Lengkap';
-
-			$id = $this->record->add($data);
-			redirect('cases/view/'.$id);
-
-		} else {
-			$data['branch'] = $this->branch->get_branch();
-			$data['bd']		= $this->branch->get_branch_dropdown('Pilih Cawangan');
-
-			$this->load->view('header', $data);
-			$this->load->view('cases/new', $data);
-			$this->load->view('footer', $data);
-		}
-	}
-
-	function Edit($id,$do){
+    function New_case($do){
+        $data['tab'] = "new-case";
+        
+        if ($do == 'do'){
+            
+            $data = $this->input->post();
+            
+            
+            $id = $this->record->add($data);
+            redirect('cases/gi_entry/'.$id);
+            
+        } else {
+            
+            
+            $this->load->view('header', $data);
+            $this->load->view('cases/new', $data);
+            $this->load->view('footer', $data);
+        }
+    }
+    
+    function Edit($id,$do){
 		$data['tab'] = "case-list";
 
 		if ($do == 'do'){

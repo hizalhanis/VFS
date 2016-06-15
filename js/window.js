@@ -27,7 +27,7 @@ $(document).ready(function(){
                                                $('#'+rel).submit();
                                                })
                   
-                  $('input.date').dateEntry({dateFormat: 'ymd/',spinnerImage: base_url+'images/spinnerDefault.png'});
+                  $('input.date').dateEntry({dateFormat: 'dmy/',spinnerImage: base_url+'images/spinnerDefault.png'});
                   
                   $('#dialog button').click(function(){
                                             $('#dialog-overlay').fadeOut(300);
