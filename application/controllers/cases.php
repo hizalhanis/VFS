@@ -17,39 +17,7 @@ class Cases extends CI_Controller {
 	function Overview(){
 		$data['tab'] = "overview";
 
-		$query = $this->db->query("SELECT COUNT(`id`) AS `freq`, `status` FROM `case{$this->current_data}` GROUP BY `status`");
-		$data['stats'] = $query->result();
-
-		if ($this->user->data('type') == 'Superadmin'){
-			$data['cases'] = $this->record->get_cases(array(
-				'limit' 	=> 5,
-				'sort_by'	=> 'id',
-				'order'		=> 'desc'
-			));
-
-			$data['unverified_cases'] = $this->record->get_cases(array(
-				'limit' 	=> 10,
-				'sort_by'	=> 'id',
-				'order'		=> 'asc',
-				'verified'	=> ''
-			));
-
-		} else {
-			$data['cases'] = $this->record->get_cases(array(
-				'limit' 	=> 5,
-				//'branch'	=> $this->user->data('branch'),
-				'sort_by'	=> 'id',
-				'order'		=> 'desc'
-			));
-
-			$data['unverified_cases'] = $this->record->get_cases(array(
-				//'branch'	=> $this->user->data('branch'),
-				'sort_by'	=> 'id',
-				'order'		=> 'asc',
-				'verified'	=> ''
-			));
-
-		}
+		
 
 		$this->load->view('header', $data);
 		$this->load->view('cases/index', $data);
