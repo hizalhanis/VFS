@@ -64,7 +64,7 @@
 		<div id="nav">
 			<ul>
 				<li><a <?php if ($this->uri->segment(1) == 'cases') echo 'class="current"'; ?> href="cases">Survey</a></li>
-				<li><a <?php if ($this->uri->segment(1) == 'analytics') echo 'class="current"'; ?> href="analytics">Analysis</a></li>
+				<li><a <?php if ($this->uri->segment(1) == 'analytics') echo 'class="current"'; ?> >Analysis</a></li>
 				<li><a <?php if ($this->uri->segment(1) == 'users') echo 'class="current"'; ?> href="users">Users</a></li>
 				<li><a <?php if ($this->uri->segment(1) == 'config') echo 'class="current"'; ?> href="config">Settings</a></li>
 				<li><a <?php if ($this->uri->segment(1) == 'database') echo 'class="current"'; ?> href="database">Database Management</a></li>

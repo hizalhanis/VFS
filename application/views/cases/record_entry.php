@@ -289,8 +289,8 @@ var engine_user = '<?php echo $user; ?>';
 	
 	<div id="content">
 		<div class="toolbar">
-			<a class="btn-right btn" style="padding: 0 5px;" href="cases/view/<?php echo $id; ?>">Kembali</a>
-			<h3 class="header">Rekod Kes Kemalangan</h3>
+			<a class="btn-right btn" style="padding: 0 5px;" href="cases/view/<?php echo $id; ?>">Submit</a>
+			<h3 class="header">Open Day Survey</h3>
 		</div>
 
 		<div class="content-scroll">

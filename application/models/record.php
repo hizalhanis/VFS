@@ -5,8 +5,6 @@ class Record extends CI_Model {
 	
 		parent::__construct();
 		
-		$this->current_data = $this->session->userdata('yeardata');
-		
 	}
 	
 	function Add($data){
@@ -16,20 +14,10 @@ class Record extends CI_Model {
 		
 		$time = date('Hi',strtotime($data['time']));
 		
-		
-		list($nama_jalan, $parlimen) = explode('|',$data['nama_jalan']);
 
-		$this->db->insert('case'.$this->current_data, array(
-			'team'						=> $data['team'],
-			'team_leader'				=> $data['team_leader'],
-			'team_members'				=> $data['team_members'],
+		$this->db->insert('case', array(
 			'month'						=> $date,
-			'status'					=> 'Tidak Lengkap',
-			'nama_jalan'				=> $nama_jalan,
 			'nama_tempat'				=> $data['nama_tempat'],
-			'parlimen'					=> $parlimen,
-			'latitude'					=> $data['latitude'],
-			'longitude'					=> $data['longitude'],
 			'added_by'					=> $this->user->data('username'),
 			'added_on'					=> date('Y-m-d H:i:s')
 		));
@@ -138,20 +126,10 @@ class Record extends CI_Model {
 		$date = $year . '-' . $month . '-' . $day;
 		
 		$time = date('Hi',strtotime($data['time']));
-		
-		list($nama_jalan, $parlimen) = explode('|',$data['nama_jalan']);
 
-		$this->db->update('case'.$this->current_data, array(
-			'team'						=> $data['team'],
-			'team_leader'				=> $data['team_leader'],
-			'team_members'				=> $data['team_members'],
+		$this->db->update('case', array(
 			'month'						=> $date,
-			'status'					=> 'Tidak Lengkap',
-			'nama_jalan'				=> $nama_jalan,
 			'nama_tempat'				=> $data['nama_tempat'],
-			'parlimen'					=> $parlimen,
-			'latitude'					=> $data['latitude'],
-			'longitude'					=> $data['longitude'],
 			'modified_by'				=> $this->user->data('username'),
 			'modified_on'				=> date('Y-m-d H:i:s')
 		), "`id` = '$id'");

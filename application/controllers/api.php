@@ -126,21 +126,16 @@ class API extends CI_Controller {
 		header('Access-Control-Allow-Origin: *');
 		
 		$case 		= json_decode($this->input->post('data'));
+        
+        
 		$user_id 	= $this->input->post('user_id');
 		
 		$RN			= $case->data->report_number;
-		
+    
 		$this->db->insert('case', array(
-			'team'				=> $case->data->team,
-			'team_leader'		=> $case->data->leaderid,
 			'ReportNumber'		=> $case->data->ReportNumber,
 			'month'				=> $case->data->date,
-			'latitude'			=> $case->data->latitude,
-			'longitude'			=> $case->data->longitude,
-			'team_members'		=> $case->data->membersid,
-			'nama_jalan'		=> $case->data->nama_jalan,
 			'nama_tempat'		=> $case->data->nama_tempat,
-			//'sketch'			=> $case->sketchData,
 			'added_by'			=> $user_id,
 			'added_on'			=> date('Y-m-d H:i:s')
 		));
@@ -166,221 +161,35 @@ class API extends CI_Controller {
 		$general_data = $case->caseData;
 		
 		foreach ($general_data as $vid => $question_data ){
-			//foreach ($motorcycle as $question_data){
-				
 				if ($question_data->map_to){
-					if (is_array($question_data->ans)){
+					
+                    if (is_array($question_data->ans)){
 						$ans = implode(',', $question_data->ans);				
 					} else {
 						$ans = $question_data->ans;				
 					}
-					
-					$query = $this->db->query("SELECT `id` FROM `emetra_gi` WHERE `ReportNumber` = ?", array($RN));
-					
+                    
+                    $query = $this->db->query("SELECT `id` FROM `survey_gen` WHERE `ReportNumber` = ?", array($RN));
+                    
 					if ($query->num_rows()){
 						$cdi = $query->row();
 						$cdi_id = $cdi->id;
 						
-						$this->db->update('emetra_gi', array(
+						$this->db->update('survey_gen', array(
 							str_replace(' ','',$question_data->map_to) 	=> $ans
 						),"`id` = '{$cdi_id}'");
 					} else {
-						$this->db->insert('emetra_gi', array(
+						$this->db->insert('survey_gen', array(
 							'ReportNumber'								=> $RN,
 							str_replace(' ','',$question_data->map_to)	=> $ans
 						));
 					}
 	
-				}
-			//}
-		}
+                }
+        }
 		
-		// PROCESS MOTORCYCLE DATA
-		
-		$motorcycle_data = $case->motorcycleData;
-		
-		foreach ($motorcycle_data as $vid => $question_data ){
-			//foreach ($motorcycle as $question_data){
-				
-				if ($question_data->map_to){
-					if (is_array($question_data->ans)){
-						$ans = implode(',', $question_data->ans);				
-					} else {
-						$ans = $question_data->ans;				
-					}
-					
-					$query = $this->db->query("SELECT `id` FROM `emetra_mi` WHERE `ReportNumber` = ?", array($RN));
-					
-					if ($query->num_rows()){
-						$cdi = $query->row();
-						$cdi_id = $cdi->id;
-						
-						$this->db->update('emetra_mi', array(
-							str_replace(' ','',$question_data->map_to) 	=> $ans
-						),"`id` = '{$cdi_id}'");
-					} else {
-						$this->db->insert('emetra_mi', array(
-							'ReportNumber'								=> $RN,
-							str_replace(' ','',$question_data->map_to)	=> $ans
-						));
-					}
 	
-				}
-			//}
-		}
-		
-		// PROCESS PUBLIC TRANSPORT DATA
-		
-		$publictransport_data = $case->publictransportData;
-		
-		foreach ($publictransport_data as $vid => $question_data ){
-			//foreach ($publictransport as $question_data){
-				if ($question_data->map_to){
-				
-					if (is_array($question_data->ans)){
-						$ans = implode(',', $question_data->ans);				
-					} else {
-						$ans = $question_data->ans;				
-					}
-					
-					$query = $this->db->query("SELECT `id` FROM `emetra_pt` WHERE `ReportNumber` = ?", array($RN));
-					
-					if ($query->num_rows()){
-						$cdi = $query->row();
-						$cdi_id = $cdi->id;
-						
-						$this->db->update('emetra_pt', array(
-							$question_data->map_to => $ans
-						),"`id` = '{$cdi_id}'");
-					} else {
-						$this->db->insert('emetra_pt', array(
-							'ReportNumber'			=> $RN,
-							$question_data->map_to 	=> $ans
-						));
-					}
-	
-				}
-			//}
-		}
-		
-		// PROCESS PEDESTRIAN DATA
-		
-		$pedestrian_data = $case->pedestrianData;
-		
-		foreach ($pedestrian_data as $vid => $question_data ){
-			//foreach ($pedestrian as $question_data){
-				if ($question_data->map_to){
-				
-					if (is_array($question_data->ans)){
-						$ans = implode(',', $question_data->ans);				
-					} else {
-						$ans = $question_data->ans;				
-					}
-					
-					$query = $this->db->query("SELECT `id` FROM `emetra_pi` WHERE `ReportNumber` = ?", array($RN));
-					
-					if ($query->num_rows()){
-						$cdi = $query->row();
-						$cdi_id = $cdi->id;
-						
-						$this->db->update('emetra_pi', array(
-							$question_data->map_to 	=> $ans
-						),"`id` = '{$cdi_id}'");
-					} else {
-						$this->db->insert('emetra_pi', array(
-							'ReportNumber'			=> $RN,
-							$question_data->map_to 	=> $ans
-						));
-					}
-	
-				}
-			//}
-		}
-		
-		// PROCESS ROAD SURFACE DATA
-		
-		$roadsurface_data = $case->roadsurfaceData;
-		
-		foreach ($roadsurface_data as $vid => $question_data ){
-			//foreach ($roadsurface as $question_data){
-				if ($question_data->map_to){
-				
-					if (is_array($question_data->ans)){
-						$ans = implode(',', $question_data->ans);				
-					} else {
-						$ans = $question_data->ans;				
-					}
-					
-					$query = $this->db->query("SELECT `id` FROM `emetra_rs` WHERE `ReportNumber` = ?", array($RN));
-					
-					if ($query->num_rows()){
-						$cdi = $query->row();
-						$cdi_id = $cdi->id;
-						
-						$this->db->update('emetra_rs', array(
-							$question_data->map_to 	=> $ans
-						),"`id` = '{$cdi_id}'");
-					} else {
-						$this->db->insert('emetra_rs', array(
-							'ReportNumber'			=> $RN,
-							$question_data->map_to 	=> $ans
-						));
-					}
-	
-				}
-			//}
-		}
-		
-		// PROCESS ROAD SIDE SAFETY DATA
-		
-		$roadsidesafety_data = $case->roadsidesafetyData;
-		
-		foreach ($roadsidesafety_data as $vid => $question_data ){
-			//foreach ($roadsidesafety as $question_data){
-				if ($question_data->map_to){
-				
-					if (is_array($question_data->ans)){
-						$ans = implode(',', $question_data->ans);				
-					} else {
-						$ans = $question_data->ans;				
-					}
-					
-					$query = $this->db->query("SELECT `id` FROM `emetra_rss` WHERE `ReportNumber` = ?", array($RN));
-					
-					if ($query->num_rows()){
-						$cdi = $query->row();
-						$cdi_id = $cdi->id;
-						
-						$this->db->update('emetra_rss', array(
-							$question_data->map_to 	=> $ans
-						),"`id` = '{$cdi_id}'");
-					} else {
-						$this->db->insert('emetra_rss', array(
-							'ReportNumber'			=> $RN,
-							$question_data->map_to 	=> $ans
-						));
-					}
-	
-				}
-			//}
-		}
-
-		foreach ($case->images as $imgid => $image){
-			$this->db->insert('photos', array(
-				'case_id'	=> $id,
-				//'image'		=> 'blob',
-				'file'		=> 'image',
-				'blob'		=> $image
-			));
-		}
-		
-		// PROCESS SKETCH DATA
-
-		$this->db->update('case', array(
-			'sketch'	=> $case->sketchData
-		), "`id` = '{$id}'");
-		
-		$res->rn		= $report_number;
+        $res->rn		= $report_number;
 		$res->status 	= 'OK';
 		$res->details	= 'Record has been submitted.';
 			
@@ -388,7 +197,7 @@ class API extends CI_Controller {
 		die();
 
 		
-	}
+    }
 	
 	function Get_branch_list(){
 		$query = $this->db->query("SELECT * FROM `branch` ORDER BY `name` ASC");
