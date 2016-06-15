@@ -56,10 +56,10 @@
 	<div id="container">
 		<div id="header">
 			<p style="float:right">
-				Log in as
+				Logged in as
 				<strong><?php echo $this->user->data('username'); ?></strong> <button onclick="location.href='logout'">Logout</button>
 			</p>
-			<h1>CSMCR Open Day Survey Management System</h1>
+			<h1>CSMCR Open Day Survey System</h1>
 		</div>
 		<div id="nav">
 			<ul>
