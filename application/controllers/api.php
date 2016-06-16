@@ -132,7 +132,13 @@ class API extends CI_Controller {
 		
 		$RN			= $case->data->report_number;
     
-		
+		$this->db->insert('case', array(
+			'ReportNumber'		=> $case->data->ReportNumber,
+			'month'				=> $case->data->date,
+			'nama_tempat'		=> $case->data->nama_tempat,
+			'added_by'			=> $user_id,
+			'added_on'			=> date('Y-m-d H:i:s')
+		));
 		
 		$id = $this->db->insert_id();
 		
