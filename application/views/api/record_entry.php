@@ -154,30 +154,7 @@ var engine_user = '<?php echo $user; ?>';
 			
 			
 							<?php if ($question->type == 'single-answer'): $other = json_decode($question->other); ?>
-								<div id="sq<?php echo $x; ?>" no="<?php echo $x; ?>" class="lcms-survey-question-slide" style="<?php echo $style; ?>">
-								<form logic="<?php echo $logic; ?>" map_to="<?php echo $question->map_to; ?>" class="question" no="<?php echo $question->no; ?>" method="post" action="cases/ajax/submit_answer" target="submit_answer">
-									<input type="hidden" name="id" value="<?php echo $survey->id; ?>" />
-									<input type="hidden" name="no" value="<?php echo $question->no; ?>" />
-									<input type="hidden" name="type" value="<?php echo $question->type; ?>" />
-									<input type="hidden" name="user" value="<?php echo $user; ?>" />
-									<input type="hidden" name="map_to" value="<?php echo $question->map_to; ?>" />
-									<input type="hidden" name="report_number" value="<?php echo $case->ReportNumber; ?>" />
-									<input type="hidden" name="sub_id" value="<?php echo $sub_id; ?>" />
-									<input type="hidden" name="logic" value="<?php echo $logic; ?>" />
-									
-									<div class="survey-question">
-										<div>
-											<h3><?php echo $question->question; ?></h3>
-										</div>
-										<?php if ($question->modifier): ?>
-											<?php
-											$output = str_replace('<answer','<input class="survey-radio-btn" type="radio" name="ans"', $question->modifier);
-											$output = str_replace('></answer>', ' />', $output);
-											echo $output;
-										?>
-
-										
-									</div>
+								
 									
 									<div class="single-answer">
 										<?php endif; ?>													
