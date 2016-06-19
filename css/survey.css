@@ -1,0 +1,152 @@
+div.lcms-survey-control {
+	padding: 5px;
+	background: #EEE;
+	border-radius: 5px;
+	margin-bottom: 5px;
+}
+
+div.lcms-survey-question-slide {
+	display: block;
+	padding: 5px 10px;
+	margin-left: 15px;
+	margin-bottom: 10px;
+	background: #eee !important;
+	border-radius: 5px;
+}
+
+div.lcms-survey-page {
+	display: none;
+	background: rgba(255,255,255,0.5) !important;
+
+}
+
+div.lcms-survey-introduction {
+	display: block;
+}
+
+div.lcms-survey-question-control {
+	padding: 10px;
+	height: 15px;
+}
+
+div.lcms-survey-question-control {
+	
+}
+
+a.lcms-survey-next {
+	cursor: pointer;
+	position: absolute;
+	margin-top: 230px;
+	margin-left: 950px;
+	display: block;
+	width: 50px;
+	text-align: center;
+	background: #333;
+	color: #FFF;
+	padding: 10px;
+	border-radius: 0 10px 10px 0;
+}
+
+a.lcms-survey-prev {
+	cursor: pointer;
+	position: absolute;
+	margin-top: 230px;
+	margin-left: -80px;
+	display: block;
+	width: 50px;
+	text-align: center;	
+	background: #333;
+	color: #FFF;
+	padding: 10px;
+	border-radius: 10px 0 0 10px;
+}
+
+textarea.survey-comments {
+	width: 100%;
+	border: 1px solid #CCC;
+	padding: 2px;
+	font-size: 11pt;
+	height: 60px;
+}
+
+input.survey-answer-other {
+	width: 100px;
+	border: 1px solid #CCC;
+	padding: 2px;
+	font-size: 11pt;
+}
+
+div.lcms-survey-question-slide table {
+	border-collapse: collapse;
+}
+
+div.lcms-survey-question-slide table td {
+	padding: 5px 3px;
+}
+
+input.survey-answer {
+	border: 1px solid #CCC;
+	padding: 2px;
+	font-size: 11pt;
+}
+
+tr.odd {
+	background: #F5F5F5;
+}
+
+div.single-answer div {
+	padding: 10px 20px;
+}
+
+div.multiple-answer div {
+	padding: 10px 20px 10px 0;
+}
+
+
+div.single-answer input.survey-radio-btn {
+	float: left;
+	margin-left: -20px;
+}
+
+
+@media print{
+
+	div.lcms-survey-page {
+		z-index: 1000;
+	}
+	
+	div.lcms-survey-control {
+		display: none !important;
+		height: 0;
+	}
+	
+	div.lcms-survey-preview-slide {
+		margin: 10px 0;
+	}
+	
+}
+
+div.progress {
+	float: right;
+}
+
+div.progress-bar {
+	width: 100px;
+	height: 10px;
+	margin-left: 20px;
+	border: 1px solid #CCC;
+	border-radius: 5px;
+	float: right;
+	margin-top: 5px;
+}
+
+div.progress-bar-highlight {
+	background: #AAA;
+	height: inherit;
+	border-radius: 5px;
+	width: 0;
+}
+
+.answer-filled {
+	background: #3daa39;
+}
