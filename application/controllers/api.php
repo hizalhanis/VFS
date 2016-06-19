@@ -42,86 +42,6 @@ class API extends CI_Controller {
 
 	}	
 	
-	function Get_Motorcycle_Form(){
-		$data['questions']	= $this->questionnaire->get_questions('motorcycle-infra',0,false);
-		$data['id']			= $id;
-		$data['logic']		= 'motorcycle-infra';
-		$data['case']		= $case;
-		
-		
-		$html = $this->load->view('api/record_entry', $data, true);
-		
-		$rd->status = 'ok';
-		$rd->html = $html;
-		
-		echo json_encode($rd);
-
-
-	}
-	
-	function Get_PublicTransport_Form(){
-		$data['questions']	= $this->questionnaire->get_questions('public-transport',0,false);
-		$data['id']			= $id;
-		$data['logic']		= 'public-transport';
-		$data['case']		= $case;
-		
-		$html = $this->load->view('api/record_entry', $data, true);
-		
-		$rd->status = 'ok';
-		$rd->html = $html;
-		
-		echo json_encode($rd);
-
-	}
-	
-	function Get_Pedestrian_Form(){
-		$data['questions']	= $this->questionnaire->get_questions('pedestrian-infra',0,false);
-		$data['id']			= $id;
-		$data['logic']		= 'pedestrian-infra';
-		$data['case']		= $case;
-		
-		$html = $this->load->view('api/record_entry', $data, true);
-		
-		$rd->status = 'ok';
-		$rd->html = $html;
-		
-		echo json_encode($rd);
-
-		
-	}
-	
-	function Get_RoadSurface_Form(){
-		$data['questions']	= $this->questionnaire->get_questions('road-surface',0,false);
-		$data['id']			= $id;
-		$data['logic']		= 'road-surface';
-		$data['case']		= $case;
-		
-		$html = $this->load->view('api/record_entry', $data, true);
-		
-		$rd->status = 'ok';
-		$rd->html = $html;
-		
-		echo json_encode($rd);
-
-		
-	}
-	
-	function Get_RoadSideSafety_Form(){
-		$data['questions']	= $this->questionnaire->get_questions('road-side-safety',0,false);
-		$data['id']			= $id;
-		$data['logic']		= 'road-side-safety';
-		$data['case']		= $case;
-		
-		$html = $this->load->view('api/record_entry', $data, true);
-		
-		$rd->status = 'ok';
-		$rd->html = $html;
-		
-		echo json_encode($rd);
-
-		
-	}
-	
 	function Submit_case(){
 		header('Access-Control-Allow-Origin: *');
 		
@@ -199,31 +119,6 @@ class API extends CI_Controller {
 		
     }
 	
-	function Get_branch_list(){
-		$query = $this->db->query("SELECT * FROM `branch` ORDER BY `name` ASC");
-		
-		$html = '<select name="branch" class="select-branch">';
-		foreach ($query->result() as $branch){
-			$html .= '<option value="'.$branch->id.'">'.$branch->name.'</option>';
-		}
-		$html .= '</select>';
-		
-		$rd->status = 'ok';
-		$rd->html	= $html;
-		
-		echo json_encode($rd);
-	}
-	
-	function Get_users(){
-		$id = $this->input->post('branch_id');
-		
-		$query = $this->db->query("SELECT *, branch.name AS `branch_name`, branch.city AS `city`, branch.state AS `state` FROM `users` LEFT JOIN `branch` ON users.branch = branch.id WHERE `branch` = ?", array($id));
-		
-		$rd->status = 'ok';
-		$rd->data	= $query->result();
-		
-		echo json_encode($rd);
-	}
 	
 	function Get_Users_List(){
 		$query = $this->db->query("SELECT * FROM `users`;");
@@ -234,18 +129,5 @@ class API extends CI_Controller {
 		echo json_encode($rd);
 	}
 	
-	function Get_Groups_List(){
-		$query = $this->db->query("SELECT * FROM `teams` ORDER BY `name` ASC");
-		
-		$html = '<select name="team" class="select-team">';
-		foreach ($query->result() as $team){
-			$html .= '<option value="'.$team->id.'">'.$team->name.'</option>';
-		}
-		$html .= '</select>';
-		
-		$rd->status = 'ok';
-		$rd->html	= $html;
-		
-		echo json_encode($rd);
-	}
+	
 }
