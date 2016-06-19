@@ -167,7 +167,7 @@ var engine_user = '<?php echo $user; ?>';
 									
 									<div class="survey-question">
 										<div>
-											<h3><?php echo $question->question; ?></h3>
+											<h1><?php echo $question->question; ?></h1>
 										</div>
 										<?php if ($question->modifier): ?>
 											<?php
