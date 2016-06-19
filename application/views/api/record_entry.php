@@ -7,18 +7,6 @@ $style = 'background: none !important; border-radius: 0; border-bottom: 1px soli
 ?>
 <script type="text/javascript">
 
-	var aArrayCount = 0;
-	var aArray = new Array();
-	
-	var bArrayCount = 0;
-	var bArray = new Array();
-	
-	var aTotal = 0;
-	var bTotal = 0;
-	
-	var aCountExceedSpeedLimit = 0;
-	var bCountExceedSpeedLimit = 0;
-
 $(document).ready(function(){
 
 	$('input.min').bind('click',function(){
@@ -120,79 +108,6 @@ function ansSubmitted(no){
 	$('a.jump-nav[rel='+no+']').addClass('answer-filled');
 }
 
-function doSpeedProfile(){
-	var aArrayCount = 0;
-	var aArray = new Array();
-	
-	var bArrayCount = 0;
-	var bArray = new Array();
-	
-	var aTotal = 0;
-	var bTotal = 0;
-	
-	var aCountExceedSpeedLimit = 0;
-	var bCountExceedSpeedLimit = 0;
-
-	for(i = 1; i <= 100; i++){
-		var result = parseInt($('.sp_a_'+i).val(), 10) || 0;
-		if(result != 0)
-		{
-			aArray[aArrayCount] = $('.sp_a_'+i).val();
-			aTotal += parseInt($('.sp_a_'+i).val(), 10) || 0;
-			aArrayCount++;
-			aArray.sort(function(a, b){return a-b});
-			
-			if($('.sp_sum_a_posted_speed_limit').val() != "")
-			{
-				if(parseInt($('.sp_a_'+i).val(), 10) > parseInt($('.sp_sum_a_posted_speed_limit').val(), 10))
-				{
-					aCountExceedSpeedLimit++;
-				}
-			}
-		}
-			
-		var result = parseInt($('.sp_b_'+i).val(), 10) || 0;
-		if(result != 0)
-		{
-			bArray[bArrayCount] = $('.sp_b_'+i).val();
-			bTotal += parseInt($('.sp_b_'+i).val(), 10) || 0;
-			bArrayCount++;
-			bArray.sort(function(a, b){return a-b});
-			
-			if($('.sp_sum_b_posted_speed_limit').val() != "")
-			{
-				if(parseInt($('.sp_b_'+i).val(), 10) > parseInt($('.sp_sum_b_posted_speed_limit').val(), 10))
-				{
-					bCountExceedSpeedLimit++;
-				}
-			}
-		}
-	}
-	var Aeightyfifthpercentile = 0.85 * aArrayCount;
-	var Beightyfifthpercentile = 0.85 * bArrayCount;
-	
-	$('.sp_sum_a_85th_percentile').val(aArray[Math.ceil(Aeightyfifthpercentile) - 1])
-	$('.sp_sum_b_85th_percentile').val(aArray[Math.ceil(Aeightyfifthpercentile) - 1])
-	
-	
-	$('.sp_sum_a_min_recorded_speed').val(aArray[0])
-	$('.sp_sum_a_max_recorded_speed').val(aArray[aArrayCount - 1])
-	
-	$('.sp_sum_b_min_recorded_speed').val(bArray[0])
-	$('.sp_sum_b_max_recorded_speed').val(bArray[bArrayCount - 1])
-	
-	$('.sp_sum_a_mean_speed').val(parseInt(aTotal/aArrayCount, 10) || "")
-	$('.sp_sum_b_mean_speed').val(parseInt(bTotal/bArrayCount, 10) || "")
-	
-	if($('.sp_sum_a_posted_speed_limit').val() != "")
-	{
-		$('.sp_sum_a_percent_exceed_speed_limit').val(parseInt(aCountExceedSpeedLimit/aArrayCount*100, 10) || "")
-	}
-	if($('.sp_sum_b_posted_speed_limit').val() != "")
-	{
-		$('.sp_sum_b_percent_exceed_speed_limit').val(parseInt(bCountExceedSpeedLimit/bArrayCount*100, 10) || "")
-	}
-}
 
 
 var engine_url = 'cases/ajax/';
