@@ -112,8 +112,7 @@ $(document).ready(function(){
 	
 	$('div.lcms-survey-question-slide').show();
 	
-	doOHVC();
-	doSpeedProfile();
+	
 });
 
 
@@ -193,100 +192,6 @@ function doSpeedProfile(){
 	{
 		$('.sp_sum_b_percent_exceed_speed_limit').val(parseInt(bCountExceedSpeedLimit/bArrayCount*100, 10) || "")
 	}
-}
-
-function doOHVC(){
-	var a_car1 = parseInt($('.ah_ohvc_a_st15_car').val(),10) || 0;
-	var a_car2 = parseInt($('.ah_ohvc_a_nd15_car').val(),10) || 0;
-	var a_car3 = parseInt($('.ah_ohvc_a_rd15_car').val(),10) || 0;
-	var a_car4 = parseInt($('.ah_ohvc_a_th15_car').val(),10) || 0;
-	
-	var a_motorcycle1 = parseInt($('.ah_ohvc_a_st15_motorcycle').val(),10) || 0;
-	var a_motorcycle2 = parseInt($('.ah_ohvc_a_nd15_motorcycle').val(),10) || 0;
-	var a_motorcycle3 = parseInt($('.ah_ohvc_a_rd15_motorcycle').val(),10) || 0;
-	var a_motorcycle4 = parseInt($('.ah_ohvc_a_th15_motorcycle').val(),10) || 0;
-	
-	var a_heavy1 = parseInt($('.ah_ohvc_a_st15_heavy').val(),10) || 0;
-	var a_heavy2 = parseInt($('.ah_ohvc_a_nd15_heavy').val(),10) || 0;
-	var a_heavy3 = parseInt($('.ah_ohvc_a_rd15_heavy').val(),10) || 0;
-	var a_heavy4 = parseInt($('.ah_ohvc_a_th15_heavy').val(),10) || 0;
-	
-	var a_bus1 = parseInt($('.ah_ohvc_a_st15_bus').val(),10) || 0;
-	var a_bus2 = parseInt($('.ah_ohvc_a_nd15_bus').val(),10) || 0;
-	var a_bus3 = parseInt($('.ah_ohvc_a_rd15_bus').val(),10) || 0;
-	var a_bus4 = parseInt($('.ah_ohvc_a_th15_bus').val(),10) || 0;
-	
-	var a_bicycle1 = parseInt($('.ah_ohvc_a_st15_bicycle').val(),10) || 0;
-	var a_bicycle2 = parseInt($('.ah_ohvc_a_nd15_bicycle').val(),10) || 0;
-	var a_bicycle3 = parseInt($('.ah_ohvc_a_rd15_bicycle').val(),10) || 0;
-	var a_bicycle4 = parseInt($('.ah_ohvc_a_th15_bicycle').val(),10) || 0;
-	
-	var a_pedestrian1 = parseInt($('.ah_ohvc_a_st15_pedestrian').val(),10) || 0;
-	var a_pedestrian2 = parseInt($('.ah_ohvc_a_nd15_pedestrian').val(),10) || 0;
-	var a_pedestrian3 = parseInt($('.ah_ohvc_a_rd15_pedestrian').val(),10) || 0;
-	var a_pedestrian4 = parseInt($('.ah_ohvc_a_th15_pedestrian').val(),10) || 0;
-	
-	$('.ah_ohvc_a_total_car').val(a_car1 + a_car2 + a_car3 + a_car4);
-	$('.ah_ohvc_a_total_motorcycle').val(a_motorcycle1 + a_motorcycle2 + a_motorcycle3 + a_motorcycle4)
-	$('.ah_ohvc_a_total_heavy').val(a_heavy1 + a_heavy2 + a_heavy3 + a_heavy4)
-	$('.ah_ohvc_a_total_bus').val(a_bus1 + a_bus2 + a_bus3 + a_bus4)
-	$('.ah_ohvc_a_total_bicycle').val(a_bicycle1 + a_bicycle2 + a_bicycle3 + a_bicycle4)
-	$('.ah_ohvc_a_total_pedestrian').val(a_pedestrian1 + a_pedestrian2 + a_pedestrian3 + a_pedestrian4)
-	
-	var a_car_total = parseInt($('.ah_ohvc_a_total_car').val(),10) || 0;
-	var a_motorcycle_total = parseInt($('.ah_ohvc_a_total_motorcycle').val(),10) || 0;
-	var a_heavy_total = parseInt($('.ah_ohvc_a_total_heavy').val(),10) || 0;
-	var a_bus_total = parseInt($('.ah_ohvc_a_total_bus').val(),10) || 0;
-	var a_bicycle_total = parseInt($('.ah_ohvc_a_total_bicycle').val(),10) || 0;
-	var a_pedestrian_total = parseInt($('.ah_ohvc_a_total_pedestrian').val(),10) || 0;
-	
-	
-	var b_car1 = parseInt($('.ah_ohvc_b_st15_car').val(),10) || 0;
-	var b_car2 = parseInt($('.ah_ohvc_b_nd15_car').val(),10) || 0;
-	var b_car3 = parseInt($('.ah_ohvc_b_rd15_car').val(),10) || 0;
-	var b_car4 = parseInt($('.ah_ohvc_b_th15_car').val(),10) || 0;
-	
-	var b_motorcycle1 = parseInt($('.ah_ohvc_b_st15_motorcycle').val(),10) || 0;
-	var b_motorcycle2 = parseInt($('.ah_ohvc_b_nd15_motorcycle').val(),10) || 0;
-	var b_motorcycle3 = parseInt($('.ah_ohvc_b_rd15_motorcycle').val(),10) || 0;
-	var b_motorcycle4 = parseInt($('.ah_ohvc_b_th15_motorcycle').val(),10) || 0;
-	
-	var b_heavy1 = parseInt($('.ah_ohvc_b_st15_heavy').val(),10) || 0;
-	var b_heavy2 = parseInt($('.ah_ohvc_b_nd15_heavy').val(),10) || 0;
-	var b_heavy3 = parseInt($('.ah_ohvc_b_rd15_heavy').val(),10) || 0;
-	var b_heavy4 = parseInt($('.ah_ohvc_b_th15_heavy').val(),10) || 0;
-	
-	var b_bus1 = parseInt($('.ah_ohvc_b_st15_bus').val(),10) || 0;
-	var b_bus2 = parseInt($('.ah_ohvc_b_nd15_bus').val(),10) || 0;
-	var b_bus3 = parseInt($('.ah_ohvc_b_rd15_bus').val(),10) || 0;
-	var b_bus4 = parseInt($('.ah_ohvc_b_th15_bus').val(),10) || 0;
-	
-	var b_bicycle1 = parseInt($('.ah_ohvc_b_st15_bicycle').val(),10) || 0;
-	var b_bicycle2 = parseInt($('.ah_ohvc_b_nd15_bicycle').val(),10) || 0;
-	var b_bicycle3 = parseInt($('.ah_ohvc_b_rd15_bicycle').val(),10) || 0;
-	var b_bicycle4 = parseInt($('.ah_ohvc_b_th15_bicycle').val(),10) || 0;
-	
-	var b_pedestrian1 = parseInt($('.ah_ohvc_b_st15_pedestrian').val(),10) || 0;
-	var b_pedestrian2 = parseInt($('.ah_ohvc_b_nd15_pedestrian').val(),10) || 0;
-	var b_pedestrian3 = parseInt($('.ah_ohvc_b_rd15_pedestrian').val(),10) || 0;
-	var b_pedestrian4 = parseInt($('.ah_ohvc_b_th15_pedestrian').val(),10) || 0;
-	
-	$('.ah_ohvc_b_total_car').val(b_car1 + b_car2 + b_car3 + b_car4)
-	$('.ah_ohvc_b_total_motorcycle').val(b_motorcycle1 + b_motorcycle2 + b_motorcycle3 + b_motorcycle4)
-	$('.ah_ohvc_b_total_heavy').val(b_heavy1 + b_heavy2 + b_heavy3 + b_heavy4)
-	$('.ah_ohvc_b_total_bus').val(b_bus1 + b_bus2 + b_bus3 + b_bus4)
-	$('.ah_ohvc_b_total_bicycle').val(b_bicycle1 + b_bicycle2 + b_bicycle3 + b_bicycle4)
-	$('.ah_ohvc_b_total_pedestrian').val(b_pedestrian1 + b_pedestrian2 + b_pedestrian3 + b_pedestrian4)
-	
-	var b_car_total = parseInt($('.ah_ohvc_b_total_car').val(),10) || 0;
-	var b_motorcycle_total = parseInt($('.ah_ohvc_b_total_motorcycle').val(),10) || 0;
-	var b_heavy_total = parseInt($('.ah_ohvc_b_total_heavy').val(),10) || 0;
-	var b_bus_total = parseInt($('.ah_ohvc_b_total_bus').val(),10) || 0;
-	var b_bicycle_total = parseInt($('.ah_ohvc_b_total_bicycle').val(),10) || 0;
-	var b_pedestrian_total = parseInt($('.ah_ohvc_b_total_pedestrian').val(),10) || 0;
-	
-	$('.ah_ohvc_a_grand_total').val(a_car_total + a_motorcycle_total + a_heavy_total + a_bus_total + a_bicycle_total + a_pedestrian_total);
-	$('.ah_ohvc_b_grand_total').val(b_car_total + b_motorcycle_total + b_heavy_total + b_bus_total + b_bicycle_total + b_pedestrian_total);
 }
 
 
