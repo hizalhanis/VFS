@@ -167,11 +167,11 @@ var engine_user = '<?php echo $user; ?>';
 									
 									<div class="survey-question">
 										<div>
-											<h1><?php echo $question->question; ?></h1>
+											<h3><?php echo $question->question; ?></h3>
 										</div>
 										<?php if ($question->modifier): ?>
 											<?php
-											$output = str_replace('<answer','<input class="survey-radio-btn" type="radio" name="ans"', $question->modifier);
+											$output = str_replace('<answer','<input class="survey-radio-btn" type="radio" name="ans" height="3em"', $question->modifier);
 											$output = str_replace('></answer>', ' />', $output);
 											echo $output;
 										?>
