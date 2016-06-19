@@ -7,7 +7,7 @@ $style = 'background: none !important; border-radius: 0; border-bottom: 1px soli
 ?>
 <script type="text/javascript">
 
-$(document).ready(function(){
+	$(document).ready(function(){
 
 	$('input.min').bind('click',function(){
 		var tr = $(this).parents('tr');
@@ -109,7 +109,6 @@ function ansSubmitted(no){
 }
 
 
-
 var engine_url = 'cases/ajax/';
 var engine_user = '<?php echo $user; ?>';
 
@@ -184,11 +183,11 @@ var engine_user = '<?php echo $user; ?>';
 
 											<?php $a = 0; foreach ($answers as $answer): $a++; ?>
 												<?php if ($answer->type == 'other'): ?>
-													<div class="s-a-a"><input <?php if ($info->{$question->map_to} == $a) echo 'checked="checked"'; ?> class="survey-radio-btn" type="radio" name="ans" value="<?php echo $a; ?>" /> <?php echo $answer->value; ?></div>
+													<div class="s-a-a"><input <?php if ($info->{$question->map_to} == $a) echo 'checked="checked"'; ?> class="survey-radio-btn" type="radio" style="width:22px; height:22px;" name="ans" value="<?php echo $a; ?>" /> <?php echo $answer->value; ?></div>
 													<div style="padding-left: 20px">Please state: <input class="survey-answer-other" type="text" name="other" style="width: 250px"  /></div>
 												<?php else: ?>
 													<div class="s-a-a">
-														<input <?php if ($info->{$question->map_to} == $a) echo 'checked="checked"'; ?> class="survey-radio-btn <?php if ($other->state_reason_if_checked) echo 'reason-on-checked'; ?>" type="radio" name="ans" value="<?php echo $a; ?>" /> <?php echo $answer->value; ?>
+														<input <?php if ($info->{$question->map_to} == $a) echo 'checked="checked"'; ?> class="survey-radio-btn <?php if ($other->state_reason_if_checked) echo 'reason-on-checked'; ?>" type="radio" style="width:22px; height:22px;" name="ans" value="<?php echo $a; ?>" /> <?php echo $answer->value; ?>
 														<div class="reason-on-checked" style="display:none; padding-left: 20px">Please state: <input class="survey-answer-other" style="width: 250px" type="text" name="other" /></div>
 													</div>
 												<?php endif; ?>
@@ -405,7 +404,7 @@ var engine_user = '<?php echo $user; ?>';
 													<td style="text-align: right; width: 40%"><input class="survey-answer time" style="width: 93%" type="time" name="ans[<?php echo $j; ?>]" value="<?php echo $info->{$question->map_to}; ?>" /></td>									
 										
 										<?php else: ?>
-													<td style="text-align: right; width: 40%"><input class="survey-answer <?php echo $question->map_to; ?>" style="width: 93%" type="text" name="ans" value="<?php echo $info->{$question->map_to}; ?>" /></td>								
+													<td style="text-align: left; width: 100%"><input class="survey-answer <?php echo $question->map_to; ?>" style="width: 93%" type="text" name="ans" value="<?php echo $info->{$question->map_to}; ?>" /></td>
 											
 										<?php endif; ?>
 										</tr>
