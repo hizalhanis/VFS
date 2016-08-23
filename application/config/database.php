@@ -48,10 +48,10 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-$db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'root';
-$db['default']['password'] = '';
-$db['default']['database'] = 'csmcr_db';
+$db['default']['hostname'] = 'dbhost.cs.man.ac.uk';
+$db['default']['username'] = 'mbaxrhh2';
+$db['default']['password'] = 'admin123';
+$db['default']['database'] = 'mbaxrhh2';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;
