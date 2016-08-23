@@ -32,12 +32,6 @@
 								<input value="<?php echo $user->firstname; ?>" type="text" class="text" name="firstname" />
 							</td>
 						</tr>
-						<tr>
-							<td class="label">Department</td>
-							<td class="input">
-								<?php echo form_dropdown('branch', $this->branch->dropdown_list(), $user->branch); ?>
-							</td>
-						</tr>
 				
 						
 					</table>

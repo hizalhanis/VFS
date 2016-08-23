@@ -33,12 +33,6 @@
 							</td>
 						</tr>
 						<tr>
-							<td class="label">Department</td>
-							<td class="input">
-								<?php echo form_dropdown('branch', $this->branch->dropdown_list()); ?>
-							</td>
-						</tr>
-						<tr>
 							<td class="label">Authorisation level</td>
 							<td class="input">
 								<?php echo form_dropdown('type', array('Superadmin'=>'System administrator','Admin'=>'General administrator','User'=>'General user')); ?>

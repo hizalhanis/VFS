@@ -12,9 +12,8 @@ class Database extends CI_Controller {
 	}
 	
 	function Download_csv(){
-		$this->current_data = $this->session->userdata('yeardata');
 		
-		$query = $this->db->query("SELECT * FROM `case{$this->current_data}` ");
+		$query = $this->db->query("SELECT * FROM `survey_gen` ");
 	    $list = $query->result();
 	    	
 		header('Content-Type: text/csv; charset=utf-8');
@@ -75,13 +74,13 @@ class Database extends CI_Controller {
 			
 			foreach ($rows as $row){
 				$id = $row['id'];				
-				$query = $this->db->query("SELECT * FROM `case{$this->current_data}` WHERE `id` = ?", array($id));
+				$query = $this->db->query("SELECT * FROM `survey_gen` WHERE `id` = ?", array($id));
 				if ($query->num_rows()){
 
-					$this->db->update("case{$this->current_data}", $row, "`id` = '{$id}'");
+					$this->db->update("survey_gen", $row, "`id` = '{$id}'");
 					$total_updates++;
 				} else {
-					$this->db->insert("case{$this->current_data}", $row);
+					$this->db->insert("survey_gen", $row);
 					$total_new++;
 				}
 			

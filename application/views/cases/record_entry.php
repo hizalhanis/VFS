@@ -6,20 +6,14 @@ $style = 'background: none !important; border-radius: 0; border-bottom: 1px soli
 
 ?>
 <script type="text/javascript">
-
-	var aArrayCount = 0;
-	var aArray = new Array();
-	
-	var bArrayCount = 0;
-	var bArray = new Array();
-	
-	var aTotal = 0;
-	var bTotal = 0;
-	
-	var aCountExceedSpeedLimit = 0;
-	var bCountExceedSpeedLimit = 0;
 	
 $(document).ready(function(){
+                  
+    $('a.delete').click(function(e){
+        e.preventDefault();
+        var hurl = $(this).attr('href');
+        if (confirm('Exit survey mode?')) location.href = hurl;
+    });
 
 	$('input.min').bind('click',function(){
 		var tr = $(this).parents('tr');
@@ -93,15 +87,13 @@ $(document).ready(function(){
 	});
 	
 	$('input[type=text]').blur(function(){
-		doOHVC();
-		doSpeedProfile();
+		
 		$(this).parents('form').submit();
 	});
 	
 	$('div.lcms-survey-question-slide').show();
 	
-	doOHVC();
-	doSpeedProfile();
+	
 });
 
 
@@ -109,193 +101,24 @@ function ansSubmitted(no){
 	$('a.jump-nav[rel='+no+']').addClass('answer-filled');
 }
 
-function doSpeedProfile(){
-	var aArrayCount = 0;
-	var aArray = new Array();
-	
-	var bArrayCount = 0;
-	var bArray = new Array();
-	
-	var aTotal = 0;
-	var bTotal = 0;
-	
-	var aCountExceedSpeedLimit = 0;
-	var bCountExceedSpeedLimit = 0;
 
-	for(i = 1; i <= 100; i++){
-		var result = parseInt($('.sp_a_'+i).val(), 10) || 0;
-		if(result != 0)
-		{
-			aArray[aArrayCount] = $('.sp_a_'+i).val();
-			aTotal += parseInt($('.sp_a_'+i).val(), 10) || 0;
-			aArrayCount++;
-			aArray.sort(function(a, b){return a-b});
-			
-			if($('.sp_sum_a_posted_speed_limit').val() != "")
-			{
-				if(parseInt($('.sp_a_'+i).val(), 10) > parseInt($('.sp_sum_a_posted_speed_limit').val(), 10))
-				{
-					aCountExceedSpeedLimit++;
-				}
-			}
-		}
-			
-		var result = parseInt($('.sp_b_'+i).val(), 10) || 0;
-		if(result != 0)
-		{
-			bArray[bArrayCount] = $('.sp_b_'+i).val();
-			bTotal += parseInt($('.sp_b_'+i).val(), 10) || 0;
-			bArrayCount++;
-			bArray.sort(function(a, b){return a-b});
-			
-			if($('.sp_sum_b_posted_speed_limit').val() != "")
-			{
-				if(parseInt($('.sp_b_'+i).val(), 10) > parseInt($('.sp_sum_b_posted_speed_limit').val(), 10))
-				{
-					bCountExceedSpeedLimit++;
-				}
-			}
-		}
-	}
-	var Aeightyfifthpercentile = 0.85 * aArrayCount;
-	var Beightyfifthpercentile = 0.85 * bArrayCount;
-	
-	$('.sp_sum_a_85th_percentile').val(aArray[Math.ceil(Aeightyfifthpercentile) - 1])
-	$('.sp_sum_b_85th_percentile').val(aArray[Math.ceil(Aeightyfifthpercentile) - 1])
-	
-	
-	$('.sp_sum_a_min_recorded_speed').val(aArray[0])
-	$('.sp_sum_a_max_recorded_speed').val(aArray[aArrayCount - 1])
-	
-	$('.sp_sum_b_min_recorded_speed').val(bArray[0])
-	$('.sp_sum_b_max_recorded_speed').val(bArray[bArrayCount - 1])
-	
-	$('.sp_sum_a_mean_speed').val(parseInt(aTotal/aArrayCount, 10) || "")
-	$('.sp_sum_b_mean_speed').val(parseInt(bTotal/bArrayCount, 10) || "")
-	
-	if($('.sp_sum_a_posted_speed_limit').val() != "")
-	{
-		$('.sp_sum_a_percent_exceed_speed_limit').val(parseInt(aCountExceedSpeedLimit/aArrayCount*100, 10) || "")
-	}
-	if($('.sp_sum_b_posted_speed_limit').val() != "")
-	{
-		$('.sp_sum_b_percent_exceed_speed_limit').val(parseInt(bCountExceedSpeedLimit/bArrayCount*100, 10) || "")
-	}
-}
-
-function doOHVC(){
-	var a_car1 = parseInt($('.ah_ohvc_a_st15_car').val(),10) || 0;
-	var a_car2 = parseInt($('.ah_ohvc_a_nd15_car').val(),10) || 0;
-	var a_car3 = parseInt($('.ah_ohvc_a_rd15_car').val(),10) || 0;
-	var a_car4 = parseInt($('.ah_ohvc_a_th15_car').val(),10) || 0;
-	
-	var a_motorcycle1 = parseInt($('.ah_ohvc_a_st15_motorcycle').val(),10) || 0;
-	var a_motorcycle2 = parseInt($('.ah_ohvc_a_nd15_motorcycle').val(),10) || 0;
-	var a_motorcycle3 = parseInt($('.ah_ohvc_a_rd15_motorcycle').val(),10) || 0;
-	var a_motorcycle4 = parseInt($('.ah_ohvc_a_th15_motorcycle').val(),10) || 0;
-	
-	var a_heavy1 = parseInt($('.ah_ohvc_a_st15_heavy').val(),10) || 0;
-	var a_heavy2 = parseInt($('.ah_ohvc_a_nd15_heavy').val(),10) || 0;
-	var a_heavy3 = parseInt($('.ah_ohvc_a_rd15_heavy').val(),10) || 0;
-	var a_heavy4 = parseInt($('.ah_ohvc_a_th15_heavy').val(),10) || 0;
-	
-	var a_bus1 = parseInt($('.ah_ohvc_a_st15_bus').val(),10) || 0;
-	var a_bus2 = parseInt($('.ah_ohvc_a_nd15_bus').val(),10) || 0;
-	var a_bus3 = parseInt($('.ah_ohvc_a_rd15_bus').val(),10) || 0;
-	var a_bus4 = parseInt($('.ah_ohvc_a_th15_bus').val(),10) || 0;
-	
-	var a_bicycle1 = parseInt($('.ah_ohvc_a_st15_bicycle').val(),10) || 0;
-	var a_bicycle2 = parseInt($('.ah_ohvc_a_nd15_bicycle').val(),10) || 0;
-	var a_bicycle3 = parseInt($('.ah_ohvc_a_rd15_bicycle').val(),10) || 0;
-	var a_bicycle4 = parseInt($('.ah_ohvc_a_th15_bicycle').val(),10) || 0;
-	
-	var a_pedestrian1 = parseInt($('.ah_ohvc_a_st15_pedestrian').val(),10) || 0;
-	var a_pedestrian2 = parseInt($('.ah_ohvc_a_nd15_pedestrian').val(),10) || 0;
-	var a_pedestrian3 = parseInt($('.ah_ohvc_a_rd15_pedestrian').val(),10) || 0;
-	var a_pedestrian4 = parseInt($('.ah_ohvc_a_th15_pedestrian').val(),10) || 0;
-	
-	$('.ah_ohvc_a_total_car').val(a_car1 + a_car2 + a_car3 + a_car4);
-	$('.ah_ohvc_a_total_motorcycle').val(a_motorcycle1 + a_motorcycle2 + a_motorcycle3 + a_motorcycle4)
-	$('.ah_ohvc_a_total_heavy').val(a_heavy1 + a_heavy2 + a_heavy3 + a_heavy4)
-	$('.ah_ohvc_a_total_bus').val(a_bus1 + a_bus2 + a_bus3 + a_bus4)
-	$('.ah_ohvc_a_total_bicycle').val(a_bicycle1 + a_bicycle2 + a_bicycle3 + a_bicycle4)
-	$('.ah_ohvc_a_total_pedestrian').val(a_pedestrian1 + a_pedestrian2 + a_pedestrian3 + a_pedestrian4)
-	
-	var a_car_total = parseInt($('.ah_ohvc_a_total_car').val(),10) || 0;
-	var a_motorcycle_total = parseInt($('.ah_ohvc_a_total_motorcycle').val(),10) || 0;
-	var a_heavy_total = parseInt($('.ah_ohvc_a_total_heavy').val(),10) || 0;
-	var a_bus_total = parseInt($('.ah_ohvc_a_total_bus').val(),10) || 0;
-	var a_bicycle_total = parseInt($('.ah_ohvc_a_total_bicycle').val(),10) || 0;
-	var a_pedestrian_total = parseInt($('.ah_ohvc_a_total_pedestrian').val(),10) || 0;
-	
-	
-	var b_car1 = parseInt($('.ah_ohvc_b_st15_car').val(),10) || 0;
-	var b_car2 = parseInt($('.ah_ohvc_b_nd15_car').val(),10) || 0;
-	var b_car3 = parseInt($('.ah_ohvc_b_rd15_car').val(),10) || 0;
-	var b_car4 = parseInt($('.ah_ohvc_b_th15_car').val(),10) || 0;
-	
-	var b_motorcycle1 = parseInt($('.ah_ohvc_b_st15_motorcycle').val(),10) || 0;
-	var b_motorcycle2 = parseInt($('.ah_ohvc_b_nd15_motorcycle').val(),10) || 0;
-	var b_motorcycle3 = parseInt($('.ah_ohvc_b_rd15_motorcycle').val(),10) || 0;
-	var b_motorcycle4 = parseInt($('.ah_ohvc_b_th15_motorcycle').val(),10) || 0;
-	
-	var b_heavy1 = parseInt($('.ah_ohvc_b_st15_heavy').val(),10) || 0;
-	var b_heavy2 = parseInt($('.ah_ohvc_b_nd15_heavy').val(),10) || 0;
-	var b_heavy3 = parseInt($('.ah_ohvc_b_rd15_heavy').val(),10) || 0;
-	var b_heavy4 = parseInt($('.ah_ohvc_b_th15_heavy').val(),10) || 0;
-	
-	var b_bus1 = parseInt($('.ah_ohvc_b_st15_bus').val(),10) || 0;
-	var b_bus2 = parseInt($('.ah_ohvc_b_nd15_bus').val(),10) || 0;
-	var b_bus3 = parseInt($('.ah_ohvc_b_rd15_bus').val(),10) || 0;
-	var b_bus4 = parseInt($('.ah_ohvc_b_th15_bus').val(),10) || 0;
-	
-	var b_bicycle1 = parseInt($('.ah_ohvc_b_st15_bicycle').val(),10) || 0;
-	var b_bicycle2 = parseInt($('.ah_ohvc_b_nd15_bicycle').val(),10) || 0;
-	var b_bicycle3 = parseInt($('.ah_ohvc_b_rd15_bicycle').val(),10) || 0;
-	var b_bicycle4 = parseInt($('.ah_ohvc_b_th15_bicycle').val(),10) || 0;
-	
-	var b_pedestrian1 = parseInt($('.ah_ohvc_b_st15_pedestrian').val(),10) || 0;
-	var b_pedestrian2 = parseInt($('.ah_ohvc_b_nd15_pedestrian').val(),10) || 0;
-	var b_pedestrian3 = parseInt($('.ah_ohvc_b_rd15_pedestrian').val(),10) || 0;
-	var b_pedestrian4 = parseInt($('.ah_ohvc_b_th15_pedestrian').val(),10) || 0;
-	
-	$('.ah_ohvc_b_total_car').val(b_car1 + b_car2 + b_car3 + b_car4)
-	$('.ah_ohvc_b_total_motorcycle').val(b_motorcycle1 + b_motorcycle2 + b_motorcycle3 + b_motorcycle4)
-	$('.ah_ohvc_b_total_heavy').val(b_heavy1 + b_heavy2 + b_heavy3 + b_heavy4)
-	$('.ah_ohvc_b_total_bus').val(b_bus1 + b_bus2 + b_bus3 + b_bus4)
-	$('.ah_ohvc_b_total_bicycle').val(b_bicycle1 + b_bicycle2 + b_bicycle3 + b_bicycle4)
-	$('.ah_ohvc_b_total_pedestrian').val(b_pedestrian1 + b_pedestrian2 + b_pedestrian3 + b_pedestrian4)
-	
-	var b_car_total = parseInt($('.ah_ohvc_b_total_car').val(),10) || 0;
-	var b_motorcycle_total = parseInt($('.ah_ohvc_b_total_motorcycle').val(),10) || 0;
-	var b_heavy_total = parseInt($('.ah_ohvc_b_total_heavy').val(),10) || 0;
-	var b_bus_total = parseInt($('.ah_ohvc_b_total_bus').val(),10) || 0;
-	var b_bicycle_total = parseInt($('.ah_ohvc_b_total_bicycle').val(),10) || 0;
-	var b_pedestrian_total = parseInt($('.ah_ohvc_b_total_pedestrian').val(),10) || 0;
-	
-	$('.ah_ohvc_a_grand_total').val(a_car_total + a_motorcycle_total + a_heavy_total + a_bus_total + a_bicycle_total + a_pedestrian_total);
-	$('.ah_ohvc_b_grand_total').val(b_car_total + b_motorcycle_total + b_heavy_total + b_bus_total + b_bicycle_total + b_pedestrian_total);
-}
 
 var engine_url = 'cases/ajax/';
 var engine_user = '<?php echo $user; ?>';
 
 function send()
 {
-    alert("Submitted! Thank you for your feedback.");
+    alert("Your response has been submitted! Thank you for your feedback");
 }
 
 </script>
 
 
-
-
-	<?php $this->load->view('cases/sidebar'); ?>
-	
-	<div id="content">
 		<div class="toolbar">
-			<a class="btn-right btn" style="padding: 0 5px;" href="cases/overview" onclick="send()" value="Confirmation">Submit</a>
-			<h3 class="header">Open Day Survey</h3>
+            <a class="btn-right btn" style="padding: 0 15px;" href="cases/New_case" onclick="send()" value="Confirmation">Save/Submit</a>
+            <a class="btn-right btn delete" style="padding: 0 30px;" href="<?php echo base_url(); ?>cases/delete/<?php echo $case->id; ?>" value="Cancel">Exit</a>
+<div style="text-align: center">
+			<h3 class="header">Survey Questionnaire Form</h3></div>
 		</div>
 
 		<div class="content-scroll">
@@ -607,35 +430,14 @@ function send()
 												<tr class="ans <?php if ($j%2) echo 'odd'; ?>">
 													<td><?php echo $qn->question; ?></td>
 										<?php if ($question->data_type == 'date'): ?>
-											<td style="text-align: right; width: 40%"><input class="survey-answer date" style="width: 93%" type="text" name="ans[<?php echo $j; ?>]" value="<?php echo $info->{$question->map_to}; ?>" /></td>									
+											<td style="text-align: left; width: 100%"><input class="survey-answer date" style="width: 93%" type="text" name="ans[<?php echo $j; ?>]" value="<?php echo $info->{$question->map_to}; ?>" /></td>
 										
 										<?php elseif ($question->data_type == 'time'): ?>
-											<td style="text-align: right; width: 40%"><input class="survey-answer time" style="width: 93%" type="text" name="ans[<?php echo $j; ?>]" value="<?php echo $info->{$question->map_to}; ?>" /></td>									
+											<td style="text-align: left; width: 100%"><input class="survey-answer time" style="width: 93%" type="text" name="ans[<?php echo $j; ?>]" value="<?php echo $info->{$question->map_to}; ?>" /></td>
 										<?php else: ?>
-											<?php if ($question->map_to == 'tm_leader'): ?>
-												<?php $user = $this->user->get_user_by_id($info->{$question->map_to}); ?>
-												<td style="text-align: right; width: 40%"><input class="survey-answer <?php echo $question->map_to; ?> autocomplete-user-single" style="width: 93%" type="text" name="ans[<?php echo $j; ?>]" value="{id:'<?php echo $user->id; ?>',plain:'<?php echo $user->firstname; ?>'}" /></td>
-											<?php elseif ($question->map_to == 'tm_ro'): ?>
-												<?php $user = $this->user->get_user_by_id($info->{$question->map_to}); ?>
-												<td style="text-align: right; width: 40%"><input class="survey-answer <?php echo $question->map_to; ?> autocomplete-user-single" style="width: 93%" type="text" name="ans[<?php echo $j; ?>]" value="{id:'<?php echo $user->id; ?>',plain:'<?php echo $user->firstname; ?>'}" /></td>
-											<?php elseif ($question->map_to == 'tm_arora1'): ?>
-												<?php $user = $this->user->get_user_by_id($info->{$question->map_to}); ?>
-												<td style="text-align: right; width: 40%"><input class="survey-answer <?php echo $question->map_to; ?> autocomplete-user-single" style="width: 93%" type="text" name="ans[<?php echo $j; ?>]" value="{id:'<?php echo $user->id; ?>',plain:'<?php echo $user->firstname; ?>'}" /></td>
-											<?php elseif ($question->map_to == 'tm_arora2'): ?>
-												<?php $user = $this->user->get_user_by_id($info->{$question->map_to}); ?>
-												<td style="text-align: right; width: 40%"><input class="survey-answer <?php echo $question->map_to; ?> autocomplete-user-single" style="width: 93%" type="text" name="ans[<?php echo $j; ?>]" value="{id:'<?php echo $user->id; ?>',plain:'<?php echo $user->firstname; ?>'}" /></td>
-											<?php elseif ($question->map_to == 'tm_arora3'): ?>
-												<?php $user = $this->user->get_user_by_id($info->{$question->map_to}); ?>
-												<td style="text-align: right; width: 40%"><input class="survey-answer <?php echo $question->map_to; ?> autocomplete-user-single" style="width: 93%" type="text" name="ans[<?php echo $j; ?>]" value="{id:'<?php echo $user->id; ?>',plain:'<?php echo $user->firstname; ?>'}" /></td>
-											<?php elseif ($question->map_to == 'tm_arora4'): ?>
-												<?php $user = $this->user->get_user_by_id($info->{$question->map_to}); ?>
-												<td style="text-align: right; width: 40%"><input class="survey-answer <?php echo $question->map_to; ?> autocomplete-user-single" style="width: 93%" type="text" name="ans[<?php echo $j; ?>]" value="{id:'<?php echo $user->id; ?>',plain:'<?php echo $user->firstname; ?>'}" /></td>
-											<?php elseif ($question->map_to == 'tm_arora5'): ?>
-												<?php $user = $this->user->get_user_by_id($info->{$question->map_to}); ?>
-												<td style="text-align: right; width: 40%"><input class="survey-answer <?php echo $question->map_to; ?> autocomplete-user-single" style="width: 93%" type="text" name="ans[<?php echo $j; ?>]" value="{id:'<?php echo $user->id; ?>',plain:'<?php echo $user->firstname; ?>'}" /></td>
-											<?php else: ?>
-												<td style="text-align: right; width: 40%"><input class="survey-answer <?php echo $question->map_to; ?>" style="width: 93%" type="text" name="ans[<?php echo $j; ?>]" value="<?php echo $info->{$question->map_to}; ?>" /></td>
-											<?php endif; ?>
+
+												<td style="text-align: left; width: 100%"><input class="survey-answer <?php echo $question->map_to; ?>" style="width: 93%" type="text" name="ans[<?php echo $j; ?>]" value="<?php echo $info->{$question->map_to}; ?>" /></td>
+
 										<?php endif; ?>
 
 										</tr>
@@ -667,7 +469,6 @@ function send()
 			</div>
 												
 		</div>
-	</div>
 							
 
 												

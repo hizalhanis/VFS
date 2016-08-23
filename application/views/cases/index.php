@@ -6,20 +6,20 @@
 			$('a.delete').click(function(e){
 			e.preventDefault();
 			var hurl = $(this).attr('href');
-			if (confirm('Padam rekod kemalangan?')) location.href = hurl;
+			if (confirm('Delete survey record?')) location.href = hurl;
 		})
 
 	})
 	</script>
 	<div id="content">
-	
-		<div class="toolbar">
-			<h3 class="header">Home</h3>
-		</div>
-<div style="text-align: center; padding: 5px;"> Welcome to CSMCR Survey System </div>
+
+<div style="text-align: center; padding: 30px;"> <img src="images/surveyhome2.png" style="width: 20%;" /></div>
 		
 <div style="text-align:center; padding: 2px 1px 5px 1px;">
-<img src="images/CSMCR_bg.png" style="width: 30%;" />
+<img src="images/CSMCR_bg.png" style="width: 20%;" />
+<img src="images/surveyhome.jpg" style="width: 30%;" />
+
+
 </div>
 
 	</div>

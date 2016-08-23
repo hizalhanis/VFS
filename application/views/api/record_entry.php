@@ -186,8 +186,8 @@ var engine_user = '<?php echo $user; ?>';
 													<div class="s-a-a"><input <?php if ($info->{$question->map_to} == $a) echo 'checked="checked"'; ?> class="survey-radio-btn" type="radio" style="width:22px; height:22px;" name="ans" value="<?php echo $a; ?>" /> <?php echo $answer->value; ?></div>
 													<div style="padding-left: 20px">Please state: <input class="survey-answer-other" type="text" name="other" style="width: 250px"  /></div>
 												<?php else: ?>
-													<div class="s-a-a">
-														<input <?php if ($info->{$question->map_to} == $a) echo 'checked="checked"'; ?> class="survey-radio-btn <?php if ($other->state_reason_if_checked) echo 'reason-on-checked'; ?>" type="radio" style="width:22px; height:22px;" name="ans" value="<?php echo $a; ?>" /> <?php echo $answer->value; ?>
+													<div class="s-a-a"> <label>
+														<input <?php if ($info->{$question->map_to} == $a) echo 'checked="checked"'; ?> class="survey-radio-btn <?php if ($other->state_reason_if_checked) echo 'reason-on-checked'; ?>" type="radio" style="width:22px; height:22px;" name="ans" value="<?php echo $a; ?>" /> <?php echo $answer->value; ?></label>
 														<div class="reason-on-checked" style="display:none; padding-left: 20px">Please state: <input class="survey-answer-other" style="width: 250px" type="text" name="other" /></div>
 													</div>
 												<?php endif; ?>

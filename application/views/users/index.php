@@ -10,7 +10,6 @@
 					<tr>
 						<th>Username</th>
 						<th style="width: 200px">Name</th>
-						<th style="width: 200px">Department</th>
 						<th style="width: 125px">Action</th>
 						<th style="width: 3px"></th>
 					</tr>
@@ -26,7 +25,6 @@
 					<tr>
 						<td><?php echo $user->username; ?></td>
 						<td style="width: 200px"><?php echo $user->firstname; ?> <?php echo $user->lastname; ?></td>
-						<td style="width: 200px"><?php echo $this->branch->name($user->branch); ?></td>
 						<td style="width: 120px">
 							<?php if ($this->user->data('type') == 'Superadmin'): ?>
 							<a href="users/edit/<?php echo $user->id; ?>">Update</a> |

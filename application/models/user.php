@@ -209,36 +209,7 @@ class User extends CI_Model {
 		if ($permission->super) return true;
 		else return false;
 	}
-	
-
-	function Teams($select_term){
-		$query = $this->db->query("SELECT * FROM `teams` ORDER BY `name` ASC");
-		if ($select_term){
-			$teams[] = $select_term;			
-		} else {
-			$teams[] = 'Select Team';			
-		}
-
-		foreach ($query->result() as $team){
-			$teams[$team->name] = $team->name;
-		}
-		return $teams;
-	}	
-	
-	function Team_users($team, $select_term){
-		$query = $this->db->query("SELECT * FROM `users` WHERE `team` = ? ORDER BY `firstname` ASC", array($team));
-		if ($select_term){
-			$team_leader[] = $select_term;
-		} else {
-			$team_leader[] = 'Select Team Leader';			
-		}
-
-		foreach ($query->result() as $user){
-			$team_leader[$user->id] = $user->firstname . ' ' . $user->lastname;
-		}
-		return $team_leader;
 		
-	}
 	
 	function Has_case_access($case){
 		$user = $this->user->data();
@@ -246,16 +217,6 @@ class User extends CI_Model {
 		if ($user->type == 'Superadmin'){
 			return true;
 		}
-		
-		if ($user->type == 'Admin' && $case->District_Code == $user->branch){
-			return true;
-		}
-		
-		if ($user->id == $case->team_leader){
-			return true;
-		}
-		
-		$members = explode(',', $case->team_members);
 		
 		if (in_array($user->id, $members)) return true;
 		

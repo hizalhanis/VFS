@@ -1,8 +1,8 @@
 			<div class="clear"></div>
-		</div>
 		<div id="footer">
-			<p>&copy; Copyright School of Computer Science, University of Manchester 2016</p>
-		</div>
-	</div>
+
+			<p>School of Computer Science, University of Manchester</p>
+
+</div>
 </body>
 </html>

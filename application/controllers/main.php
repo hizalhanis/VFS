@@ -15,7 +15,7 @@ class Main extends CI_Controller {
 			),"`id` = '{$cq->id}'");
 			$x++;
 		}
-	}
+    }
 	
 	function Generate_column_names($type){
 		

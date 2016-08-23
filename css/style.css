@@ -26,7 +26,8 @@ a, a:visited {
 	font-size: 15pt;
 	margin: 0;
 	text-shadow: 0 1px 0 #fff;
-	color: #aaa;
+	color: #93B1C6;
+    text-align: center;
 }
 
 #nav ul {
@@ -40,14 +41,15 @@ a, a:visited {
 }
 
 #nav {
-	background: #f4f4f4;
+	background: #C7D0D5;
 	background: -webkit-linear-gradient(#f4f4f4 0%, #d9d9d9 100%);
 	padding: 10px 10px;
 	border-bottom: 1px solid #ccc;
+    text-align: center;
 }
 
 #nav a {
-	color: #4a4a4a;
+	color: #7A9A95;
 	text-decoration: none;
 	margin-right: 5px;
 	padding: 5px;
@@ -77,18 +79,18 @@ a, a:visited {
 	display: block;
 	text-decoration: none;
 	padding: 7px 15px;
-	color: #555;
+	color: #7A9A95;
 	font-weight: bold;
 	text-shadow: 0 1px 0 #fff;
 }
 
 #sidebar a.current {
-	background: #888;
-	background: -webkit-linear-gradient(#5b5b5b 0%, #989898 100%);
-	background: -webkit-linear-gradient(#ffb700 0%, #ffdb4a 100%);
-	color: #333;
+	background: #90c5a9;
+	background: -webkit-linear-gradient(#5b5b5b 0%, #888 100%);
+	background: -webkit-linear-gradient(#90c5a9 0%, #7a9a95 100%);
+	color: #342800;
 	text-shadow: none;
-	border-bottom: 1px solid #ffb700;
+	border-bottom: 1px solid #90c5a9;
 }
 
 #content {
@@ -111,6 +113,13 @@ div.clear {
 	background: #fff;
 	padding: 10px;
 	margin-top: 50px;
+    position: fixed;
+    
+    display:inline-block;
+    top: 30%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -100px;
 }
 
 table.form {
@@ -217,11 +226,10 @@ h3.header {
 	text-shadow: 0 1px 0 #fff;
 }
 
-#footer {	
+#footer {
 	padding: 1px 15px;
-	background: #333;
-	background: -webkit-linear-gradient(#252525 0%, #444444 23.84%);
-	color: #aaa;
+	background: #3F2860;
+	color: #7A9A95;
 	text-shadow: 0 -1px 0 #000;
 }
 
@@ -348,10 +356,6 @@ p.notice {
 	border: 1px solid #c6bc00;
 	border-radius: 5px;
 	padding: 3px;
-}
-
-.heatmap-filter select {
-	width: 45% !important; 
 }
 
 

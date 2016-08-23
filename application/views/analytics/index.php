@@ -1,142 +1,91 @@
-<script type="text/javascript">
+<?php $this->load->view('analytics/sidebar');
+    
+    $noq 			= $this->db->query("SELECT COUNT(DISTINCT Date) AS `no_row` FROM `survey_gen` WHERE Date is not null");
+    $q_norow        = $noq->row();
+    $aaa            = $q_norow->no_row;
+    
+    $query          = $this->db->query("SELECT DISTINCT Date AS `date` FROM `survey_gen` WHERE Date is not null ORDER BY Date DESC");
+        for ($m = 0; $m < $aaa; $m++){
+            $row = $query->row($m);
+            $year_list[] = $row->date;
+        }
+    
+    $year_list[$aaa] = 'All dates';
+    if (empty ($date_picked) AND $date_picked != 0) {
+        $date_picked = $m-1;
+    }
+?>
 
-$(document).ready(function(){
-	
-	$('select.filter-select').change(function(){
-		var id = $(this).val();
-		$('div.control-filter div.control').hide();
-		$('div.control[rel='+id+']').show();
-	});
-	
-	$('button.filter-add').click(function(){
-		var id = $('select.filter-select').val();
-		var control = $('div.control[rel='+id+']').first().clone();
-		
-		$(control).prepend('<button style="float: right" class="filter-remove">&times;</button>');
-	
-		$('div.actual-filter i').remove();
-		$('div.actual-filter').append(control);
-		
-		$('select.filter-select').val(0).change();
-	});
-	
-	$(document).on('click','button.filter-remove',function(e){
-		e.preventDefault();
-		$(this).parents('div.control').remove();
-		
-		var i = 0;
-		$('div.actual-filter div.control').each(function(){
-			i++;
-		})
-		
-		if (i == 0){
-			$('div.actual-filter').html('');
-		}
-		
+    <div id="content" class="toolbar">
 
+        <form method="post" action="analytics/process">
+            <table>
+                <td><h3>Analysis Dashboard for Survey Date of <?php echo $year_list[$date_picked] ?></td>
+                <td><?php echo form_dropdown('date-selected',$year_list,$date_picked,'class="axis-select"'); ?></td>
+                </h3>
+                <td><input class="btn" type="submit" value="Change" /></td>
+            </table>
+        </form>
+    </div>
 
-	})
-	
-		$('select.s-x-axis').change(function(){
-			
-			var logic = $(this).val();			
-
-			$('td.s-x-axis').html('');
-			$('td.s-x-axis').append($('select.'+logic).first().clone().attr('name','x'));
-			
-		})
-		
-		$('select.s-y-axis').change(function(){
-			var logic = $(this).val();			
-
-			$('td.s-y-axis').html('');
-			$('td.s-y-axis').append($('select.'+logic).first().clone().attr('name','y'));
-
-			
-			
-		})
-});
-
-
-</script>	
-	<?php $this->load->view('analytics/sidebar'); ?>
-	
-	<div id="content">
-		<div class="toolbar">
-			<h3 class="header">Survey Data Analysis</h3>
-		</div>
-	
-		<div class="content-scroll">
-			<div style="display:none">
-				<?php echo form_dropdown('a',$dropdown_general,'','class="general"'); ?>
-			</div>
+    <div class="content-scroll">
 			<div class="padded">
-			
-			<form method="post" action="analytics/process">
-					<table>
-						<tr>
-							<td>Chart Type</td>
-							<td><?php echo form_dropdown('result_type', array('cases'=>'No of response')); ?></td>
-						</tr>
-						<tr>
-							<td>X axis</td>
-							<td class="s-x-axis"><?php echo form_dropdown('x',$dropdown_axis,'','class="axis-select"'); ?></td>
-						</tr>
-						<tr>
-							<td>Y axis</td>
-							<td class="s-y-axis"><?php echo form_dropdown('y',$dropdown_axis,'','class="axis-select"'); ?></td>
-						</tr>
-					</table>
-					
-					<div class="actual-filter">
-						
-					</div>
-				
 
-					<input class="btn" type="submit" value="Process" />
-					
-					<hr />
-				</form>
-			
-				<div class="control-filter" style="border: 1px solid #ddd; background: #eee; padding: 10px; border-radius: 5px; margin-bottom: 15px;">
 
-				
-					<div class="filter">
-						Condition <?php echo form_dropdown('type',$dropdown,'','class="filter-select"'); ?> <button class="filter-add lcms-btn">Add</button>
-						<hr />
-					</div>	
-					<?php foreach ($questions as $q): ?>
-					
-					<div class="control" rel="<?php echo $q->map_to; ?>" style="display:none; border: 1px solid #ddd; padding: 5px 10px; border-radius: 5px; margin: 5px 0;">
-						<?php if ($q->type == 'matrix-answer'): $obj = json_decode($q->question); ?>
-						
-						<p><?php echo $obj->description; ?></p>
-							<?php foreach ($obj->questions as $question): ?>
-							<table class="control-box">
-								<td class="label"><?php echo $question->question; ?></td>
-								<td class="value"><input type="text" name="q[<?php echo $q->map_to; ?>][<?php echo $question->no; ?>]" /></td>
-							</table>
-							
-							<?php endforeach; ?>
-			
-						<?php else: $qn = json_decode($q->answers);  ?>
-			
-							<p><?php echo $q->question; ?></p>
-							<?php foreach ($qn as $answer): ?>
-								<input type="checkbox" name="q[<?php echo $q->map_to; ?>][]" value="<?php echo $answer->value; ?>|<?php echo $answer->no; ?>|<?php echo $q->question; ?>|<?php echo $q->type; ?>" /> <?php echo $answer->value; ?><br />
-							<?php endforeach; ?>
-						
-						
-						<?php endif; ?>
-					</div>
-					<?php endforeach; ?>
-				</div>
-			
-	
-			
-				
-	
-			
+
+
+<?php for ($c = 0; $c < $totalq; $c++) {
+    $y = $c; $j = 0;
+    
+    foreach ($y_field[$y] as $ans) {
+        //sum is $totalx[$c]
+        $totalx[$c] += $chartdata[$c][$j];
+        $j++;
+        $y++;
+    }
+}
+?>
+
+
+<?php for ($c = 0; $c < $totalq; $c++): ?>
+
+				<br style="clear:right" />
+                    <h3 style="text-align: center"> Survey Question:
+					<br /><br />
+					<?php echo $y_axis[$c]; ?>
+                    </h3>
+
+            <table class="chart" data-graph-container-before="1" data-graph-type="pie"  data-graph-datalabels-enabled="1" >
+					<thead>
+						<tr>
+							<th>Answer</th>
+							<th>Response (%)</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php $y = $c; $j = 0; foreach ($y_field[$y] as $ans):; ?>
+						<tr>
+							<td><?php echo $ans; ?></td>
+                                <td data-graph-name= <?php echo $ans; ?> class="cell" style="text-align: center">
+								<?php echo round(($chartdata[$c][$j]/$totalx[$c]*100),2); ?>
+							</td>
+                            <?php $j++; ?>
+						</tr>
+						<?php $y++; endforeach; ?>
+                    </tbody>
+                </table>
+    <?php endfor; ?>
+
+
+                <script type="text/javascript">
+				    $(document).ready(function(){
+					    $('table.chart').highchartTable();
+				    });
+				</script>
+
+
+
+
 			</div>
 		</div>
 	</div>

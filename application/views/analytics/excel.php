@@ -4,7 +4,7 @@
 					<thead>
 						<tr>
 							<th colspan="<?php echo count($x_field) + 1; ?>">
-								<h3 style="text-align: center"><?php echo $x_axis; ?> VS <?php echo $y_axis; ?></h3>
+								<h3 style="text-align: center"><?php if ($x_axis == '') echo $y_axis; else echo $x_axis . " Vs " . $y_axis; ?></h3>
 							</th>
 						</tr>
 						<tr>

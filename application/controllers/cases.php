@@ -27,21 +27,11 @@ class Cases extends CI_Controller {
     function New_case($do){
         $data['tab'] = "new-case";
         
-        if ($do == 'do'){
-            
-            $data = $this->input->post();
-            
-            
+        
             $id = $this->record->add($data);
             redirect('cases/gi_entry/'.$id);
             
-        } else {
-            
-            
-            $this->load->view('header', $data);
-            $this->load->view('cases/new', $data);
-            $this->load->view('footer', $data);
-        }
+        
     }
     
     function Edit($id,$do){
@@ -49,23 +39,19 @@ class Cases extends CI_Controller {
 
 		if ($do == 'do'){
 
-			$branch = $this->branch->get_branch_by_id($this->input->post('District_Code'));
-
-			$data = $this->input->post();
 
 
 			$data = $this->input->post();
-			$data['branch'] = $branch->id;
-			$data['state']	= $branch->state;
-			$data['city']	= $branch->city;
+
+
+			$data = $this->input->post();
+
 
 			$this->record->edit($id, $data);
 			redirect('cases/view/'.$id);
 
 		} else {
-			$data['branch'] = $this->branch->get_branch();
-			$data['case']	= $this->record->get_case_by_id($id);
-			$data['bd']		= $this->branch->get_branch_dropdown('Pilih Cawangan');
+
 
 			$this->load->view('header', $data);
 			$this->load->view('cases/edit', $data);
@@ -77,21 +63,10 @@ class Cases extends CI_Controller {
 	function Case_list(){
 		$data['tab'] = "case-list";
 
-		if ($this->user->data('type') == 'Superadmin'){
-			$data['cases'] = $this->record->get_cases(array(
-				'limit' 	=> 50,
-				'df'		=> $this->session->userdata('case_df') ? $this->session->userdata('case_df') : date('1/m/Y'),
-				'dt'		=> $this->session->userdata('case_dt') ? $this->session->userdata('case_dt') : date('d/m/Y')
+        $data['cases'] = $this->record->get_cases(array(
+				'limit' 	=> 50
 			));
 
-		} else {
-			$data['cases'] = $this->record->get_cases(array(
-				'limit' 	=> 50,
-				//'branch'	=> $this->user->data('branch'),
-				'df'		=> $this->session->userdata('case_df') ? $this->session->userdata('case_df') : date('1/m/Y'),
-				'dt'		=> $this->session->userdata('case_dt') ? $this->session->userdata('case_dt') : date('d/m/Y')
-			));
-		}
 
 		$this->load->view('header', $data);
 		$this->load->view('cases/case_list', $data);
@@ -99,36 +74,39 @@ class Cases extends CI_Controller {
 	}
 
 	function Filter(){
-		$data['tab'] = "case-list";
+		$data['tab']    = "case-list";
+        $date           = $this->input->post('date-selected');
+        
+        //set date
+        
+        $noq 			= $this->db->query("SELECT COUNT(DISTINCT Date) AS `no_row` FROM `survey_gen` WHERE Date is not null");
+        $q_norow        = $noq->row();
+        $aaa            = $q_norow->no_row;
+        
+        $query          = $this->db->query("SELECT DISTINCT Date AS `date` FROM `survey_gen` WHERE Date is not null ORDER BY Date DESC");
+        for ($m = 0; $m < $aaa; $m++){
+            $row = $query->row($m);
+            $year_list[] = $row->date;
+        }
 
-		if ($this->user->data('type') == 'Superadmin'){
-			$case_data = array(
-				//'branch'	=> $this->input->post('branch'),
-				'limit' 	=> 1000,
-				'df'		=> $this->input->post('df'),
-				'status'	=> $this->input->post('status'),
-				'dt'		=> $this->input->post('dt')
-			);
-		} else {
-			$case_data = array(
-				'limit' 	=> 1000,
-				//'branch'	=> $this->user->data('branch'),
-				'df'		=> $this->input->post('df'),
-				'status'	=> $this->input->post('status'),
-				'dt'		=> $this->input->post('dt')
-			);
+        $date_selected = $year_list[$date];
 
-		}
+        $case_data = array(
+
+            'limit' 	=> 100,
+
+            'dt'		=> $date_selected
+        );
+		
 
 		$this->session->set_userdata(array(
-			'case_df'	=> $this->input->post('df'),
-			'case_dt'	=> $this->input->post('dt')
+			'case_dt'	=> $date_selected
 		));
 
 
 		if ($rn = $this->input->post('report_number')){
 			$case_data = '';
-			$case_data['branch']		= $this->user->data('branch');
+
 			$case_data['report_number'] = $rn;
 		}
 
@@ -162,13 +140,16 @@ class Cases extends CI_Controller {
 	}
 
 	function Gi_entry($id){
-		$case = $this->record->get_case_by_id($id);
+		$data['tab'] = "new-case";
+        
+        $case = $this->record->get_case_by_id($id);
 
 		$query = $this->db->query("SELECT * FROM `survey_gen` WHERE `ReportNumber` = ?", array($case->ReportNumber));
 		if (!$query->num_rows()){
 			$this->db->insert("survey_gen", array(
 				'ReportNumber'	=> $case->ReportNumber
 			));
+
 		} else {
 			$data['info']		= $query->row();
 		}
@@ -178,8 +159,9 @@ class Cases extends CI_Controller {
 		$data['id']			= $id;
 		$data['case']		= $case;
 		$data['sub_id']		= $sub_id;
+        
 
-		$this->load->view('header', $data);
+		$this->load->view('surveymode', $data);
 		$this->load->view('cases/record_entry', $data);
 		$this->load->view('footer', $data);
 	}
@@ -191,8 +173,7 @@ class Cases extends CI_Controller {
 		$data['tab'] = "case-list";
 
 		$data['case'] 	= $case = $this->record->get_case_by_id($id);
-		$data['branch'] = $this->branch->get_branch_by_id($case->branch);
-		$data['photos']	= $this->record->get_case_photos_by_id($id);
+
 
 		$this->load->view('header',$data);
 		$this->load->view('cases/view', $data);
@@ -245,13 +226,15 @@ class Cases extends CI_Controller {
 						$row_id = $row->id;
 
 						$this->db->update($table, array(
-							$map_to				=> $answer
+							$map_to				=> $answer,
+                            'Date'              => date("d/m/Y"),
 						), "`id` = '$row_id'");
 
 
 					} else {
 						$this->db->insert($table, array(
 							'ReportNumber'		=> $rn,
+                            'Date'              => date("d/m/Y"),
 							$map_to				=> $answer
 						));
 					}
@@ -294,9 +277,14 @@ class Cases extends CI_Controller {
 	function Delete($id){
 		$case = $this->record->get_case_by_id($id);
 
-		$this->db->query("DELETE FROM `case{$this->current_data}` WHERE `id` = ?", array($id));
+        $this->db->query("DELETE FROM `survey_gen` WHERE `id` = ?", array($id));
 
-		redirect('cases/case_list');
+        if ($data['tab'] == "case-list") {
+           redirect('cases/case_list');
+        } else {
+            redirect('cases/overview');
+        }
+        
 
 	}
 

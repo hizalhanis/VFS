@@ -52,10 +52,9 @@ class API extends CI_Controller {
 		
 		$RN			= $case->data->report_number;
     
-		$this->db->insert('case', array(
+		$this->db->insert('survey_gen', array(
 			'ReportNumber'		=> $case->data->ReportNumber,
-			'month'				=> date('Y-m-d H:i:s'),
-			//'nama_tempat'		=> $case->data->nama_tempat,
+			'Date'				=> date('d/m/Y'),
 			'added_by'			=> $user_id,
 			'added_on'			=> date('Y-m-d H:i:s')
 		));
@@ -69,7 +68,7 @@ class API extends CI_Controller {
 		}
 		$RN = date('y') . $zeroes_str . $id;
 		
-		$this->db->update('case', array(
+		$this->db->update('survey_gen', array(
 			'ReportNumber'	=> $RN
 		),"`id` = '$id'");
 		

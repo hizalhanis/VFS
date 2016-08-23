@@ -6,8 +6,7 @@ class Users extends CI_Controller {
 		if ($this->user->data('type') == 'Superadmin'){
 			$data['users'] = $this->user->get_users();			
 		} else {
-			$branch = $this->user->data('branch');
-			$data['users'] = $this->user->get_users("WHERE `branch` = '{$branch}'");
+			$data['users'] = $this->user->get_users(" ");
 		}
 		
 		$data['tab'] = 'users';
@@ -21,10 +20,6 @@ class Users extends CI_Controller {
 	
 		$data['tab'] = 'new-user';
 		
-		$query = $this->db->query("SELECT * FROM `teams` ORDER BY `name` ASC");
-		foreach ($query->result() as $team){
-			$team_dropdown[$team->name] = $team->name;
-		}
 		
 		if ($do == 'do'){
 			
@@ -33,8 +28,6 @@ class Users extends CI_Controller {
 				'password'		=> md5($this->input->post('password')),
 				'firstname'		=> $this->input->post('firstname'),
 				'type'			=> $this->input->post('type'),
-				'team'			=> $this->input->post('team'),
-				'branch'		=> $this->input->post('branch'),
 				'added_on'		=> date('Y-m-d H:i:s'),
 				'added_by'		=> $this->user->data('username')
 			));
@@ -43,7 +36,6 @@ class Users extends CI_Controller {
 			
 		} else {
 		
-			$data['team_dropdown'] = $team_dropdown;
 			
 			$this->load->view('header', $data);
 			$this->load->view('users/add', $data);
@@ -54,10 +46,6 @@ class Users extends CI_Controller {
 	
 	function Edit($id, $do){
 	
-		$query = $this->db->query("SELECT * FROM `teams` ORDER BY `name` ASC");
-		foreach ($query->result() as $team){
-			$team_dropdown[$team->name] = $team->name;
-		}
 		
 		if ($do == 'do'){
 		
@@ -72,8 +60,6 @@ class Users extends CI_Controller {
 			$data = array(
 				'password'		=> $password,
 				'firstname'		=> $this->input->post('firstname'),
-				'team'			=> $this->input->post('team'),
-				'branch'		=> $this->input->post('branch'),
 				'modified_on'	=> date('Y-m-d H:i:s'),
 				'modified_by'	=> $this->user->data('username')
 			);
@@ -89,7 +75,6 @@ class Users extends CI_Controller {
 		} else {
 		
 			$data['user'] = $this->user->get_user_by_id($id);
-			$data['team_dropdown'] = $team_dropdown;
 		
 			$this->load->view('header', $data);
 			$this->load->view('users/edit', $data);
@@ -114,41 +99,6 @@ class Users extends CI_Controller {
 		}
 	}
 	
-	
-	function Teams(){
-		$data['tab'] = 'teams';
-		
-		$query = $this->db->query("SELECT * FROM `teams` ORDER BY `name` ASC");
-		$data['teams'] = $query->result();
-	
-		$this->load->view('header', $data);
-		$this->load->view('users/teams', $data);
-		$this->load->view('footer', $data);		
-	}
-	
-	function Add_team($do){
-		if ($do == 'do'){
-			$this->db->insert('teams', array(
-				'name'	=> $this->input->post('name')
-			));
-			
-			redirect('users/teams');
-		} else {
-			$data['tab'] = 'teams';
-			
-			$this->load->view('header', $data);
-			$this->load->view('users/add-team', $data);
-			$this->load->view('footer', $data);		
-
-		}
-	}
-	
-	function Delete_team($id, $do){
-		if ($do == 'do'){
-			$this->db->query("DELETE FROM `teams` WHERE `id` = ?", array($id));
-			redirect('users/teams');
-		}
-	}
 	
 	function Search(){
 		$search = $this->input->post('q');

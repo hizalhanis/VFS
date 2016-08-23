@@ -27,11 +27,13 @@ $(document).ready(function(){
 					<button style="float:right">Download as Excel</button>
 				</form>
 				<br style="clear:right" />
-				<h3 style="text-align: center"> Contingency Table for Survey Date <?php echo $date_print; ?>
+				<h3 style="text-align: center"> Frequency Table for Survey Date <?php echo $date_print; ?>
 					<br /><br />
-					<?php echo $x_axis; ?> <br /> Vs <br /><?php echo $y_axis; ?>
+					<?php echo $y_axis; ?>
 				</h3> 
-				<div>
+
+                <!--filtering capabilities-->
+                <div>
 					<?php foreach ($filter_desc as $qnc => $filter): ?>
 						<p style="text-align: center"><strong><?php echo $qnc; ?></strong>: 
 							<?php $x = 0; foreach ($filter as $ans): ?>
@@ -40,21 +42,22 @@ $(document).ready(function(){
 						</p>
 					<?php endforeach; ?>
 				</div>
+
 				<table class="chart" data-graph-container=".. .. .highchart-container" data-graph-type="column">
 					<thead>
 						<tr>
-							<th></th>
-							<?php foreach ($x_field as $ans): ?>
-							<th><?php echo $ans; ?></th>
-							<?php endforeach; ?>
-							<th><strong>Total</strong></th>
+							<th>Answer</th>
+
+							<th>No of Response</th>
+
+
 						</tr>
 					</thead>
 					<tbody>
 						<?php $y = 0; foreach ($y_field as $ans): $total = 0; ?>
 						<tr>
 							<td><?php echo $ans; ?></td>
-							<?php for ($x = 0; $x < count($x_field); $x++): ?>
+							<?php for ($x = 0; $x < 1; $x++): ?>
 							<td class="cell" style="text-align: center">
 								<?php echo $chartdata[$x][$y]; ?>
 								<!--
@@ -64,18 +67,20 @@ $(document).ready(function(){
 								-->
 							</td>
 							<?php $total += $chartdata[$x][$y]; $ftotal += $chartdata[$x][$y]; $totalx[$x] += $chartdata[$x][$y]; endfor; ?>
-							<th style="text-align: center"><?php echo $total; ?></th>
+
 						</tr>
 						<?php $y++; endforeach; ?>
 					
 					</tbody>
+
+                    <!--bottom total-->
 					<tfoot>
 						<tr>
 							<th><strong>TOTAL</strong></th>
-							<?php for ($x = 0; $x < count($x_field); $x++): ?>
+							<?php for ($x = 0; $x < 1; $x++): ?>
 								<th style="text-align: center"><?php echo $totalx[$x]; ?></th>
 							<?php endfor; ?>
-							<th style="text-align: center"><?php echo $ftotal; ?></th>
+
 						</tr>
 					</tfoot>
 				

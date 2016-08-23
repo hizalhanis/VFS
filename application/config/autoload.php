@@ -109,7 +109,7 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array('questionnaire','branch','term','user','record');
+$autoload['model'] = array('questionnaire','term','user','record');
 
 
 /* End of file autoload.php */
