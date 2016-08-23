@@ -48,7 +48,7 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-$db['default']['hostname'] = 'dbhost.cs.man.ac.uk';
+$db['default']['hostname'] = '130.88.196.37';
 $db['default']['username'] = 'mbaxrhh2';
 $db['default']['password'] = 'admin123';
 $db['default']['database'] = 'mbaxrhh2';
