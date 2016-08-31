@@ -6,7 +6,7 @@
 </head>
 <body>
 <div style="text-align:center; padding: 2px 1px 5px 1px;">
-<img src="images/logo.png" style="width: 85%;" />
+<img src="images/logo.png" style="width: 65%;" />
 </div>
     <center><img src="images/kilburn.jpg" alt="Welcome to CSMCR Survey" /></center>
 	<div id="login-container" class="middle" style="border: 1px solid #ccc; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.3);">
