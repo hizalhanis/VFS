@@ -1,14 +1,14 @@
 <html>
 <head>
 	<base href="<?php echo base_url(); ?>" />
-	<title>Welcome to VFS</title>
+	<title>Welcome to CSMCR Survey</title>
 	<link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 <div style="text-align:center; padding: 2px 1px 5px 1px;">
 <img src="images/logo.png" style="width: 85%;" />
 </div>
-    <center><img src="images/kilburn.jpg" alt="Welcome to VFS" /></center>
+    <center><img src="images/kilburn.jpg" alt="Welcome to CSMCR Survey" /></center>
 	<div id="login-container" class="middle" style="border: 1px solid #ccc; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.3);">
 	    <form method="post" action="login/auth">
 	    	<div style="text-align:center; padding: 2px 1px 5px 1px;">
