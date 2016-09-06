@@ -2,7 +2,7 @@
 <html>
 <head>
 	<base href="<?php echo base_url(); ?>" />
-	<title>Visitors Feedback and Survey Management System (VFS) - School of CS, UoM</title>
+	<title>CSMCR Survey - School of CS, UoM</title>
 	<script type="text/javascript">
 		var base_url = "<?php echo base_url(); ?>";
 	</script>
@@ -45,7 +45,7 @@
 <body>
 
 		<div id="header">
-                <h1>Visitors Feedback and Survey Management System (VFS)</h1>
+                <h1>CSMCR Survey</h1>
 
 </div>
 
